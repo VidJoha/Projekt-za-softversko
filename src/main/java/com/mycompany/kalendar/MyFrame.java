@@ -83,15 +83,15 @@ public class MyFrame extends JFrame implements ActionListener{
                 String novistring;
                 MyButton novi;
                 if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
@@ -115,6 +115,14 @@ public class MyFrame extends JFrame implements ActionListener{
     MyFrame(int trenutnagodina,int trenutnimjesec){
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        if(trenutnimjesec==0){
+            kolikoovajmjesecimadana=mjeseci.get(0);
+            kolikoproslimjesecimadana=mjeseci.get(11);
+        }
+        else{
+            kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
+            kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
+        }
         left =new JButton();
         right= new JButton();
         left.setBounds(0,200,50,50);
@@ -141,15 +149,15 @@ public class MyFrame extends JFrame implements ActionListener{
                 String novistring;
                 MyButton novi;
                 if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
@@ -182,6 +190,14 @@ public class MyFrame extends JFrame implements ActionListener{
             }
             trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
             trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+            if(trenutnimjesec==0){
+                kolikoovajmjesecimadana=mjeseci.get(0);
+                kolikoproslimjesecimadana=mjeseci.get(11);
+            }
+            else{
+                kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
+                kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
+            }
             System.out.println(trenutnagodina+" "+trenutnimjesec+" "+trenutnioffset);
             
             JButton oldleft =(JButton) e.getSource();
@@ -219,15 +235,15 @@ public class MyFrame extends JFrame implements ActionListener{
                 String novistring;
                 MyButton novi;
                 if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
@@ -259,23 +275,29 @@ public class MyFrame extends JFrame implements ActionListener{
             JButton oldright =(JButton) e.getSource();
             this.getContentPane().removeAll();
             
-            
-        
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        if(trenutnimjesec==0){
+                kolikoovajmjesecimadana=mjeseci.get(0);
+                kolikoproslimjesecimadana=mjeseci.get(11);
+            }
+            else{
+                kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
+                kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
+            }
         for (int i=0;i<7;i++){
             for(int j=0;j<6;j++){
                 String novistring;
                 MyButton novi;
                 if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
                     novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
