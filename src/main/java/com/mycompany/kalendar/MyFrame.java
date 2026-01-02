@@ -4,11 +4,23 @@
  */
 package com.mycompany.kalendar;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -16,41 +28,291 @@ import javax.swing.JFrame;
  */
 public class MyFrame extends JFrame implements ActionListener{
     ArrayList<MyButton> gumbi= new ArrayList<>();
-    JButton button;
-    MyFrame(int offset,int brojdanasadasnji, int brojdanaprosli){
+    List<Integer> mjeseci= Arrays.asList(31,28,31,30,31,30,31,31,30,31,30,31);
+    int trenutnimjesec;
+    int trenutnagodina;
+    int trenutnioffset;
+    int kolikoovajmjesecimadana;
+    int kolikoproslimjesecimadana;
+    String trenutnimjesecstring;
+    JButton left;
+    JButton right;
+    
+    MyFrame(){
+        
+        java.util.Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        trenutnimjesec = cal.get(Calendar.MONTH);
+        trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        trenutnagodina= cal.get(Calendar.YEAR);
+        trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
+        System.out.println(trenutnioffset);
+        if(trenutnimjesec==0){
+            kolikoovajmjesecimadana=mjeseci.get(0);
+            kolikoproslimjesecimadana=mjeseci.get(11);
+        }
+        else{
+            kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
+            kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
+        }
+        
+        left =new JButton();
+        right= new JButton();
+        left.setBounds(0,200,50,50);
+        right.setBounds(900,200,50,50);
+        URL imageL = getClass().getResource("/arrow2.png");
+        ImageIcon iconL = new ImageIcon(imageL);
+        Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconL= new ImageIcon(scaledImageL);
+        URL imageR = getClass().getResource("/arrow4.png");
+        ImageIcon iconR = new ImageIcon(imageR);
+        Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconR= new ImageIcon(scaledImageR);
+        left.setIcon(maliiconL);
+        right.setIcon(maliiconR);
+        left.addActionListener(this);
+        right.addActionListener(this);
+        
+        JLabel naslov=new JLabel();
+        naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
+        naslov.setBounds(400, 50, 200, 50);
         
         for (int i=0;i<7;i++){
             for(int j=0;j<6;j++){
                 String novistring;
-                if(j*7+i+1-offset>brojdanasadasnji){
-                    novistring=(j*7+i+1-offset-brojdanasadasnji)+"."+1+".";
-                }else if(j*7+i+1-offset<=0){
-                    novistring=(j*7+i+1-offset+brojdanaprosli)+"."+1+".";
+                MyButton novi;
+                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else if(j*7+i+1-trenutnioffset<=0){
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-offset)+"."+1+".";
+                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(true);
                 }
                 
-                MyButton novi= new MyButton(100*i,50*j,100,50,novistring);
+                
                 gumbi.add(novi);
                 novi.addActionListener(this);
                 this.add(novi);
             }
             
         }
-        button = new JButton();
-        button.setBounds(400,400,100,100);
-        button.setText("Glavni gumb");
-        button.addActionListener(this);
-        this.add(button);
+        
+        this.add(left);
+        this.add(right);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        this.setSize(500,500);
+        this.setSize(1000,500);
+        this.setVisible(true);
+        this.add(naslov);
+    }
+    MyFrame(int trenutnagodina,int trenutnimjesec){
+        trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
+        trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        left =new JButton();
+        right= new JButton();
+        left.setBounds(0,200,50,50);
+        right.setBounds(900,200,50,50);
+        URL imageL = getClass().getResource("/arrow2.png");
+        ImageIcon iconL = new ImageIcon(imageL);
+        Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconL= new ImageIcon(scaledImageL);
+        URL imageR = getClass().getResource("/arrow4.png");
+        ImageIcon iconR = new ImageIcon(imageR);
+        Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconR= new ImageIcon(scaledImageR);
+        left.setIcon(maliiconL);
+        right.setIcon(maliiconR);
+        left.addActionListener(this);
+        right.addActionListener(this);
+
+        JLabel naslov=new JLabel();
+        naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
+        naslov.setBounds(400, 50, 200, 50);
+        
+        for (int i=0;i<7;i++){
+            for(int j=0;j<6;j++){
+                String novistring;
+                MyButton novi;
+                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else if(j*7+i+1-trenutnioffset<=0){
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else{
+                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(true);
+                }
+
+
+                gumbi.add(novi);
+                novi.addActionListener(this);
+                this.add(novi);
+            }
+
+        }
+        this.add(naslov);
+        this.add(left);
+        this.add(right);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setSize(1000,500);
         this.setVisible(true);
     }
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==button){
-            System.out.println("aha");
+        if(e.getSource()==left){
+            System.out.println("Pokušavam ić lijevo");
+            if(trenutnimjesec==0){
+                trenutnimjesec=11;
+                trenutnagodina=trenutnagodina-1;
+            }
+            else{
+                trenutnimjesec=trenutnimjesec-1;
+            }
+            trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
+            trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+            System.out.println(trenutnagodina+" "+trenutnimjesec+" "+trenutnioffset);
+            
+            JButton oldleft =(JButton) e.getSource();
+            
+            this.getContentPane().removeAll();
+            
+            System.out.println("Obrisao sve");
+            
+            JButton nextleft=new JButton();
+            JButton nextright= new JButton();
+            nextleft.setBounds(0,200,50,50);
+            nextright.setBounds(900,200,50,50);
+            URL imageL = getClass().getResource("/arrow2.png");
+            ImageIcon iconL = new ImageIcon(imageL);
+            Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            ImageIcon maliiconL= new ImageIcon(scaledImageL);
+            URL imageR = getClass().getResource("/arrow4.png");
+            ImageIcon iconR = new ImageIcon(imageR);
+            Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            ImageIcon maliiconR= new ImageIcon(scaledImageR);
+            nextleft.setIcon(maliiconL);
+            nextright.setIcon(maliiconR);
+            nextleft.addActionListener(this);
+            nextright.addActionListener(this);
+            
+            left=nextleft;
+            right=nextright;
+            
+            JLabel naslov=new JLabel();
+            naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
+            naslov.setBounds(400, 50, 200, 50);
+            
+            for (int i=0;i<7;i++){
+            for(int j=0;j<6;j++){
+                String novistring;
+                MyButton novi;
+                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else if(j*7+i+1-trenutnioffset<=0){
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else{
+                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(true);
+                }
+                
+                
+                gumbi.add(novi);
+                novi.addActionListener(this);
+                this.add(novi);
+            }
+            
+        }
+            this.add(naslov);
+            this.add(left);
+            this.add(right);
+            this.revalidate();
+            this.repaint();
+        }
+        //---------------------------------
+        else if(e.getSource()==right){
+            System.out.println("Pokušavam ić desno");
+            if(trenutnimjesec==11){
+                trenutnimjesec=0;
+                trenutnagodina=trenutnagodina+1;
+            }
+            else{
+                trenutnimjesec=trenutnimjesec+1;
+            }
+            trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
+            JButton oldright =(JButton) e.getSource();
+            this.getContentPane().removeAll();
+            
+            
+        
+        trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        for (int i=0;i<7;i++){
+            for(int j=0;j<6;j++){
+                String novistring;
+                MyButton novi;
+                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else if(j*7+i+1-trenutnioffset<=0){
+                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(false);
+                }else{
+                    novistring=(j*7+i+1-trenutnioffset)+"."+1+".";
+                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novi.setEnabled(true);
+                }
+                
+                
+                gumbi.add(novi);
+                novi.addActionListener(this);
+                this.add(novi);
+            }
+            
+        }
+        JButton nextleft=new JButton();
+        JButton nextright= new JButton();
+        nextleft.setBounds(0,200,50,50);
+        nextright.setBounds(900,200,50,50);
+        URL imageL = getClass().getResource("/arrow2.png");
+        ImageIcon iconL = new ImageIcon(imageL);
+        Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconL= new ImageIcon(scaledImageL);
+        URL imageR = getClass().getResource("/arrow4.png");
+        ImageIcon iconR = new ImageIcon(imageR);
+        Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        ImageIcon maliiconR= new ImageIcon(scaledImageR);
+        nextleft.setIcon(maliiconL);
+        nextright.setIcon(maliiconR);
+        nextleft.addActionListener(this);
+        nextright.addActionListener(this);
+      
+        JLabel naslov=new JLabel();
+        naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
+        naslov.setBounds(400, 50, 200, 50);
+        
+        this.add(naslov);
+        this.add(left);
+        this.add(right);
+        this.revalidate();
+        this.repaint();
         }
         for (int i=0;i<7;i++){
             for(int j=0;j<6;j++){
@@ -60,8 +322,29 @@ public class MyFrame extends JFrame implements ActionListener{
                 }
             }
         }
-        
+    }
+    private static Integer nadioffset(int godina, int mjesec){
+        LocalDate myDate = LocalDate.of(godina,mjesec,1);
+        DayOfWeek dayofTheWeek =myDate.getDayOfWeek();
+        String danutjednu=dayofTheWeek.toString();
+        switch (danutjednu) {
+            case "MONDAY":
+                return 0;
+            case "TUESDAY":
+                return 1;
+            case "WEDNESDAY":
+                return 2;
+            case "THURSDAY":
+                return 3;
+            case "FRIDAY":
+                return 4;
+            case "SATURDAY":
+                return 5;
+            default:
+                return 6;
+        }
+    }   
         
         
     }
-}
+
