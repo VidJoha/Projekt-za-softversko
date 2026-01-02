@@ -4,7 +4,6 @@
  */
 package com.mycompany.kalendar;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +46,7 @@ public class MyFrame extends JFrame implements ActionListener{
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
         trenutnagodina= cal.get(Calendar.YEAR);
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
-        System.out.println(trenutnioffset);
+
         if(trenutnimjesec==0){
             kolikoovajmjesecimadana=mjeseci.get(0);
             kolikoproslimjesecimadana=mjeseci.get(11);
@@ -78,21 +77,21 @@ public class MyFrame extends JFrame implements ActionListener{
         naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
         naslov.setBounds(400, 50, 200, 50);
         
-        for (int i=0;i<7;i++){
-            for(int j=0;j<6;j++){
+        for (int i=0;i<6;i++){
+            for(int j=0;j<7;j++){
                 String novistring;
                 MyButton novi;
-                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(false);
-                }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                }else if(i*7+j+1-trenutnioffset<=0){
+                    novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
                 
@@ -103,7 +102,7 @@ public class MyFrame extends JFrame implements ActionListener{
             }
             
         }
-        
+
         this.add(left);
         this.add(right);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,21 +143,21 @@ public class MyFrame extends JFrame implements ActionListener{
         naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
         naslov.setBounds(400, 50, 200, 50);
         
-        for (int i=0;i<7;i++){
-            for(int j=0;j<6;j++){
+        for (int i=0;i<6;i++){
+            for(int j=0;j<7;j++){
                 String novistring;
                 MyButton novi;
-                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
+                    novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(false);
-                }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                }else if(i*7+j+1-trenutnioffset<=0){
+                    novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
+                    novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
                     novi.setEnabled(true);
                 }
 
@@ -180,7 +179,7 @@ public class MyFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==left){
-            System.out.println("Pokušavam ić lijevo");
+
             if(trenutnimjesec==0){
                 trenutnimjesec=11;
                 trenutnagodina=trenutnagodina-1;
@@ -198,13 +197,13 @@ public class MyFrame extends JFrame implements ActionListener{
                 kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
                 kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
             }
-            System.out.println(trenutnagodina+" "+trenutnimjesec+" "+trenutnioffset);
+
             
             JButton oldleft =(JButton) e.getSource();
             
             this.getContentPane().removeAll();
-            
-            System.out.println("Obrisao sve");
+            gumbi.clear();
+
             
             JButton nextleft=new JButton();
             JButton nextright= new JButton();
@@ -230,40 +229,44 @@ public class MyFrame extends JFrame implements ActionListener{
             naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
             naslov.setBounds(400, 50, 200, 50);
             
-            for (int i=0;i<7;i++){
-            for(int j=0;j<6;j++){
-                String novistring;
-                MyButton novi;
-                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(false);
-                }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(false);
-                }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(true);
+            for (int i=0;i<6;i++){
+                for(int j=0;j<7;j++){
+                    String novistring;
+                    MyButton novi;
+                    if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
+                        novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(false);
+                    }else if(i*7+j+1-trenutnioffset<=0){
+                        novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(false);
+                    }else{
+                        novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(true);
+                    }
+
+
+                    gumbi.add(novi);
+                    this.add(novi);
                 }
-                
-                
-                gumbi.add(novi);
-                novi.addActionListener(this);
-                this.add(novi);
-            }
             
-        }
-            this.add(naslov);
-            this.add(left);
-            this.add(right);
-            this.revalidate();
-            this.repaint();
-        }
+            }
+                this.add(naslov);
+                this.add(left);
+                this.add(right);
+                this.revalidate();
+                this.repaint();
+            }
         //---------------------------------
         else if(e.getSource()==right){
-            System.out.println("Pokušavam ić desno");
             if(trenutnimjesec==11){
                 trenutnimjesec=0;
                 trenutnagodina=trenutnagodina+1;
@@ -274,73 +277,82 @@ public class MyFrame extends JFrame implements ActionListener{
             trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
             JButton oldright =(JButton) e.getSource();
             this.getContentPane().removeAll();
+            gumbi.clear();
             
-        trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
-        if(trenutnimjesec==0){
-                kolikoovajmjesecimadana=mjeseci.get(0);
-                kolikoproslimjesecimadana=mjeseci.get(11);
-            }
-            else{
-                kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
-                kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
-            }
-        for (int i=0;i<7;i++){
-            for(int j=0;j<6;j++){
-                String novistring;
-                MyButton novi;
-                if(j*7+i+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(j*7+i+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(false);
-                }else if(j*7+i+1-trenutnioffset<=0){
-                    novistring=(j*7+i+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(false);
-                }else{
-                    novistring=(j*7+i+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*i+100,50*j+100,100,50,novistring);
-                    novi.setEnabled(true);
+            trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+            if(trenutnimjesec==0){
+                    kolikoovajmjesecimadana=mjeseci.get(0);
+                    kolikoproslimjesecimadana=mjeseci.get(11);
                 }
-                
-                
-                gumbi.add(novi);
-                novi.addActionListener(this);
-                this.add(novi);
+                else{
+                    kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
+                    kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
+                }
+            for (int i=0;i<6;i++){
+                for(int j=0;j<7;j++){
+                    String novistring;
+                    MyButton novi;
+                    if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
+                        novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(false);
+                    }else if(i*7+j+1-trenutnioffset<=0){
+                        novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(false);
+                    }else{
+                        novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        temp.addActionListener(this);
+                        novi= temp;
+                        novi.setEnabled(true);
+                    }
+
+
+                    gumbi.add(novi);
+                    this.add(novi);
+                }
+
             }
             
-        }
-        JButton nextleft=new JButton();
-        JButton nextright= new JButton();
-        nextleft.setBounds(0,200,50,50);
-        nextright.setBounds(900,200,50,50);
-        URL imageL = getClass().getResource("/arrow2.png");
-        ImageIcon iconL = new ImageIcon(imageL);
-        Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon maliiconL= new ImageIcon(scaledImageL);
-        URL imageR = getClass().getResource("/arrow4.png");
-        ImageIcon iconR = new ImageIcon(imageR);
-        Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon maliiconR= new ImageIcon(scaledImageR);
-        nextleft.setIcon(maliiconL);
-        nextright.setIcon(maliiconR);
-        nextleft.addActionListener(this);
-        nextright.addActionListener(this);
-      
-        JLabel naslov=new JLabel();
-        naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
-        naslov.setBounds(400, 50, 200, 50);
-        
-        this.add(naslov);
-        this.add(left);
-        this.add(right);
-        this.revalidate();
-        this.repaint();
-        }
-        for (int i=0;i<7;i++){
-            for(int j=0;j<6;j++){
-                if(e.getSource()==gumbi.get(j*7+i)){
-                    MyButton neki=gumbi.get(j*7+i);
+
+            JButton nextleft=new JButton();
+            JButton nextright= new JButton();
+            nextleft.setBounds(0,200,50,50);
+            nextright.setBounds(900,200,50,50);
+            URL imageL = getClass().getResource("/arrow2.png");
+            ImageIcon iconL = new ImageIcon(imageL);
+            Image scaledImageL = iconL.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            ImageIcon maliiconL= new ImageIcon(scaledImageL);
+            URL imageR = getClass().getResource("/arrow4.png");
+            ImageIcon iconR = new ImageIcon(imageR);
+            Image scaledImageR = iconR.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            ImageIcon maliiconR= new ImageIcon(scaledImageR);
+            nextleft.setIcon(maliiconL);
+            nextright.setIcon(maliiconR);
+            nextleft.addActionListener(this);
+            nextright.addActionListener(this);
+
+            JLabel naslov=new JLabel();
+            naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
+            naslov.setBounds(400, 50, 200, 50);
+
+            this.add(naslov);
+            this.add(left);
+            this.add(right);
+            this.revalidate();
+            this.repaint();
+            }
+        for (int i=0;i<6;i++){
+            for(int j=0;j<7;j++){
+                if(e.getSource()==gumbi.get(i*7+j)){
+                    MyButton neki=gumbi.get(i*7+j);
                     neki.isprintajtekst();
+                    
                 }
             }
         }
