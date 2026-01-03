@@ -8,6 +8,7 @@ package com.mycompany.kalendar;
  *
  * @author Vid
  */
+//Program koji otvara prozor
 public class Kalendar {
 
     public static void main(String[] args) {

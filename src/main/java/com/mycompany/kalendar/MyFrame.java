@@ -25,9 +25,16 @@ import javax.swing.JLabel;
  *
  * @author Vid
  */
+//MyFrame modificirani JFrame tako da ima sve što nam treba
+
 public class MyFrame extends JFrame implements ActionListener{
+    //Pomoćne varijable koje će mi trebati kasnije
+    //Arraylist svih gumba sa datumima, lista koja govori koliko koji mjesec ima dana
     ArrayList<MyButton> gumbi= new ArrayList<>();
+    List<String> daniutjednu= Arrays.asList("Mon","Tue","Wed","Thu","Fri","Sat","Sun");
     List<Integer> mjeseci= Arrays.asList(31,28,31,30,31,30,31,31,30,31,30,31);
+    //Trenutnioffset govori koji dan u tjednu je 1. dan u trenutnom mjesecu, prijašnji dani u tjednu su
+    //iz poršlog mjeseca i ne možemo ih kliknuti
     int trenutnimjesec;
     int trenutnagodina;
     int trenutnioffset;
@@ -37,8 +44,11 @@ public class MyFrame extends JFrame implements ActionListener{
     JButton left;
     JButton right;
     
+    //Konstruktor bez parametara
     MyFrame(){
-        
+
+        //Dohvatimo trenutni datum i uzmem redni broj i naziv mjeseca
+        //Također nađem trenutnioffset
         java.util.Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -46,7 +56,8 @@ public class MyFrame extends JFrame implements ActionListener{
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
         trenutnagodina= cal.get(Calendar.YEAR);
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
-
+        
+        //Nađem koliko trenutni i prošli mjesec imaju dana
         if(trenutnimjesec==0){
             kolikoovajmjesecimadana=mjeseci.get(0);
             kolikoproslimjesecimadana=mjeseci.get(11);
@@ -56,6 +67,8 @@ public class MyFrame extends JFrame implements ActionListener{
             kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
         }
         
+        //Stvorim gumb za lijevo i desno,pozicioniram ih stavim ikone na njih i dodam ActionListenere da
+        //zapravo naprave nešto kad ih kliknem
         left =new JButton();
         right= new JButton();
         left.setBounds(0,200,50,50);
@@ -73,10 +86,12 @@ public class MyFrame extends JFrame implements ActionListener{
         left.addActionListener(this);
         right.addActionListener(this);
         
+        //Stavim naslov
         JLabel naslov=new JLabel();
         naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
-        naslov.setBounds(400, 50, 200, 50);
+        naslov.setBounds(400, 0, 200, 50);
         
+        //Dodam sve gumbe za datume, pozicioniram ih i dodam ih u frame
         for (int i=0;i<6;i++){
             for(int j=0;j<7;j++){
                 String novistring;
@@ -102,7 +117,15 @@ public class MyFrame extends JFrame implements ActionListener{
             }
             
         }
-
+        //Dodam oznake za dane u tjednu
+        for(int j=0;j<7;j++){
+            JLabel danutjednu=new JLabel();
+            danutjednu.setText(daniutjednu.get(j));
+            danutjednu.setBounds(100*j+140, 50, 200, 50);
+            this.add(danutjednu);
+        }
+        
+        //Dodam sve stvari u frame
         this.add(left);
         this.add(right);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,9 +134,16 @@ public class MyFrame extends JFrame implements ActionListener{
         this.setVisible(true);
         this.add(naslov);
     }
+    
+    //Konstruktor sa parametrima ako će nam ikad trebat
+    //Konstruktor prima mjesec i godinu
     MyFrame(int trenutnagodina,int trenutnimjesec){
+        
+        //Nađem trenutnioffset
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
+        
+        //Nađem koliko ovaj i prošli mjesec imaju dana
         if(trenutnimjesec==0){
             kolikoovajmjesecimadana=mjeseci.get(0);
             kolikoproslimjesecimadana=mjeseci.get(11);
@@ -122,6 +152,8 @@ public class MyFrame extends JFrame implements ActionListener{
             kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
             kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
         }
+        
+        //Dodam gumbe za lijevo i desno
         left =new JButton();
         right= new JButton();
         left.setBounds(0,200,50,50);
@@ -138,11 +170,13 @@ public class MyFrame extends JFrame implements ActionListener{
         right.setIcon(maliiconR);
         left.addActionListener(this);
         right.addActionListener(this);
-
+        
+        //Dodam naslov
         JLabel naslov=new JLabel();
         naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
         naslov.setBounds(400, 50, 200, 50);
         
+        //Dodam gumbe s datumima, dodam actionListenere i dodam ih u frame
         for (int i=0;i<6;i++){
             for(int j=0;j<7;j++){
                 String novistring;
@@ -168,6 +202,14 @@ public class MyFrame extends JFrame implements ActionListener{
             }
 
         }
+        //Dodam oznake za dane u tjednu
+        for(int j=0;j<7;j++){
+            JLabel danutjednu=new JLabel();
+            danutjednu.setText(daniutjednu.get(j));
+            danutjednu.setBounds(100*j+140, 50, 200, 50);
+            this.add(danutjednu);
+        }
+        //Dodam sve u frame
         this.add(naslov);
         this.add(left);
         this.add(right);
@@ -179,7 +221,7 @@ public class MyFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==left){
-
+            //Ako si stisnuo lijevi gumb, umanji trenutni mjesec za 1, osim ako ja siječanj onda odi u prosinac
             if(trenutnimjesec==0){
                 trenutnimjesec=11;
                 trenutnagodina=trenutnagodina-1;
@@ -187,6 +229,7 @@ public class MyFrame extends JFrame implements ActionListener{
             else{
                 trenutnimjesec=trenutnimjesec-1;
             }
+            //Onda nađi offset i nađi koliko ovaj i prošli mjesec imaju dana
             trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
             trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
             if(trenutnimjesec==0){
@@ -198,13 +241,11 @@ public class MyFrame extends JFrame implements ActionListener{
                 kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
             }
 
-            
-            JButton oldleft =(JButton) e.getSource();
-            
+            //Obriši sve u framu i na listi za gumbe
             this.getContentPane().removeAll();
             gumbi.clear();
 
-            
+            //Dodaj nove gumbe za lijevo i desno
             JButton nextleft=new JButton();
             JButton nextright= new JButton();
             nextleft.setBounds(0,200,50,50);
@@ -224,11 +265,11 @@ public class MyFrame extends JFrame implements ActionListener{
             
             left=nextleft;
             right=nextright;
-            
+            //Dodaj novi naslov
             JLabel naslov=new JLabel();
             naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
-            naslov.setBounds(400, 50, 200, 50);
-            
+            naslov.setBounds(400, 0, 200, 50);
+            //Dodaj nove gumbe
             for (int i=0;i<6;i++){
                 for(int j=0;j<7;j++){
                     String novistring;
@@ -259,14 +300,23 @@ public class MyFrame extends JFrame implements ActionListener{
                 }
             
             }
-                this.add(naslov);
-                this.add(left);
-                this.add(right);
-                this.revalidate();
-                this.repaint();
+            //Dodaj nove oznake za dane u tjednu
+            for(int j=0;j<7;j++){
+                JLabel danutjednu=new JLabel();
+                danutjednu.setText(daniutjednu.get(j));
+                danutjednu.setBounds(100*j+140, 50, 200, 50);
+                this.add(danutjednu);
+                }
+            //Dodaj ostale stvari u frame
+            this.add(naslov);
+            this.add(left);
+            this.add(right);
+            this.revalidate();
+            this.repaint();
             }
         //---------------------------------
         else if(e.getSource()==right){
+            //Ako odeš desno pomakni trenutni mjesec i mozda trenutnu godinu
             if(trenutnimjesec==11){
                 trenutnimjesec=0;
                 trenutnagodina=trenutnagodina+1;
@@ -274,11 +324,12 @@ public class MyFrame extends JFrame implements ActionListener{
             else{
                 trenutnimjesec=trenutnimjesec+1;
             }
+            //Nađi novi offset
             trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
-            JButton oldright =(JButton) e.getSource();
+            //Obriši sve u framu i gumbe u Arrayu
             this.getContentPane().removeAll();
             gumbi.clear();
-            
+            //Nađi koliko novi mjesec ima dana
             trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
             if(trenutnimjesec==0){
                     kolikoovajmjesecimadana=mjeseci.get(0);
@@ -288,6 +339,7 @@ public class MyFrame extends JFrame implements ActionListener{
                     kolikoovajmjesecimadana=mjeseci.get(trenutnimjesec);
                     kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
                 }
+            //Dodaj nove gumbe i njihove ActionListenere
             for (int i=0;i<6;i++){
                 for(int j=0;j<7;j++){
                     String novistring;
@@ -319,7 +371,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
             }
             
-
+            //Dodaj nove gumbe za lijevo i desno
             JButton nextleft=new JButton();
             JButton nextright= new JButton();
             nextleft.setBounds(0,200,50,50);
@@ -336,17 +388,25 @@ public class MyFrame extends JFrame implements ActionListener{
             nextright.setIcon(maliiconR);
             nextleft.addActionListener(this);
             nextright.addActionListener(this);
-
+            //Dodaj novi naslov
             JLabel naslov=new JLabel();
             naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
-            naslov.setBounds(400, 50, 200, 50);
-
+            naslov.setBounds(400, 0, 200, 50);
+            //Dodaj nove oznake za dane u tjednu
+            for(int j=0;j<7;j++){
+                JLabel danutjednu=new JLabel();
+                danutjednu.setText(daniutjednu.get(j));
+                danutjednu.setBounds(100*j+140, 50, 200, 50);
+                this.add(danutjednu);
+                }
+            //Dodaj sve ostale stvari u frame
             this.add(naslov);
             this.add(left);
             this.add(right);
             this.revalidate();
             this.repaint();
             }
+        //Ako je stisnut gumb sa datumom ispiši datum
         for (int i=0;i<6;i++){
             for(int j=0;j<7;j++){
                 if(e.getSource()==gumbi.get(i*7+j)){
@@ -357,6 +417,7 @@ public class MyFrame extends JFrame implements ActionListener{
             }
         }
     }
+    //Funkcija koja traži offset
     private static Integer nadioffset(int godina, int mjesec){
         LocalDate myDate = LocalDate.of(godina,mjesec,1);
         DayOfWeek dayofTheWeek =myDate.getDayOfWeek();

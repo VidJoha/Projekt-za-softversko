@@ -10,6 +10,8 @@ import javax.swing.JButton;
  *
  * @author Vid
  */
+//Moj gumb
+//Modificirani JButton da mu mogu odmah u konstruktoru namjestit lokaciju, veličinu i tekst
 public class MyButton extends JButton {
     private String tekstgumba;
     MyButton(int xpozicija,int ypozicija,int širina, int visina,String tekst){
@@ -17,6 +19,7 @@ public class MyButton extends JButton {
        this.setText(tekst);
        tekstgumba=tekst;
    }
+    //Ima i opciju da ispiše tekst, tek tak da provjerim radi li kad ga kliknem
     void isprintajtekst(){
         System.out.println(tekstgumba);
     }
