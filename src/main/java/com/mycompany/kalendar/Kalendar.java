@@ -12,6 +12,6 @@ package com.mycompany.kalendar;
 public class Kalendar {
 
     public static void main(String[] args) {
-        new MyFrame();
+        new KalendarFrame();
     }
 }

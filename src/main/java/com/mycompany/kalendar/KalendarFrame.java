@@ -27,7 +27,7 @@ import javax.swing.JLabel;
  */
 //MyFrame modificirani JFrame tako da ima sve što nam treba
 
-public class MyFrame extends JFrame implements ActionListener{
+public class KalendarFrame extends JFrame implements ActionListener{
     //Pomoćne varijable koje će mi trebati kasnije
     //Arraylist svih gumba sa datumima, lista koja govori koliko koji mjesec ima dana
     ArrayList<MyButton> gumbi= new ArrayList<>();
@@ -45,7 +45,7 @@ public class MyFrame extends JFrame implements ActionListener{
     JButton right;
     
     //Konstruktor bez parametara
-    MyFrame(){
+    KalendarFrame(){
 
         //Dohvatimo trenutni datum i uzmem redni broj i naziv mjeseca
         //Također nađem trenutnioffset
@@ -97,16 +97,19 @@ public class MyFrame extends JFrame implements ActionListener{
                 String novistring;
                 MyButton novi;
                 if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset-kolikoovajmjesecimadana;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(false);
                 }else if(i*7+j+1-trenutnioffset<=0){
-                    novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset+kolikoovajmjesecimadana;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(true);
                 }
                 
@@ -137,7 +140,7 @@ public class MyFrame extends JFrame implements ActionListener{
     
     //Konstruktor sa parametrima ako će nam ikad trebat
     //Konstruktor prima mjesec i godinu
-    MyFrame(int trenutnagodina,int trenutnimjesec){
+    KalendarFrame(int trenutnagodina,int trenutnimjesec){
         
         //Nađem trenutnioffset
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
@@ -182,16 +185,19 @@ public class MyFrame extends JFrame implements ActionListener{
                 String novistring;
                 MyButton novi;
                 if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
-                    novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset-kolikoovajmjesecimadana;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(false);
                 }else if(i*7+j+1-trenutnioffset<=0){
-                    novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset+kolikoovajmjesecimadana;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(false);
                 }else{
-                    novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                    novi= new MyButton(100*j+100,50*i+100,100,50,novistring);
+                    int novidan=i*7+j+1-trenutnioffset;
+                    int novimjesec=trenutnimjesec+1;
+                    novi= new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                     novi.setEnabled(true);
                 }
 
@@ -275,20 +281,23 @@ public class MyFrame extends JFrame implements ActionListener{
                     String novistring;
                     MyButton novi;
                     if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
-                        novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset-kolikoovajmjesecimadana;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(false);
                     }else if(i*7+j+1-trenutnioffset<=0){
-                        novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset+kolikoovajmjesecimadana;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(false);
                     }else{
-                        novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(true);
@@ -345,20 +354,23 @@ public class MyFrame extends JFrame implements ActionListener{
                     String novistring;
                     MyButton novi;
                     if(i*7+j+1-trenutnioffset>kolikoovajmjesecimadana){
-                        novistring=(i*7+j+1-trenutnioffset-kolikoovajmjesecimadana)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset-kolikoovajmjesecimadana;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(false);
                     }else if(i*7+j+1-trenutnioffset<=0){
-                        novistring=(i*7+j+1-trenutnioffset+kolikoproslimjesecimadana)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset+kolikoovajmjesecimadana;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(false);
                     }else{
-                        novistring=(i*7+j+1-trenutnioffset)+"."+(trenutnimjesec+1)+".";
-                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novistring);
+                        int novidan=i*7+j+1-trenutnioffset;
+                        int novimjesec=trenutnimjesec+1;
+                        MyButton temp=new MyButton(100*j+100,50*i+100,100,50,novidan,novimjesec,trenutnagodina);
                         temp.addActionListener(this);
                         novi= temp;
                         novi.setEnabled(true);
@@ -411,7 +423,11 @@ public class MyFrame extends JFrame implements ActionListener{
             for(int j=0;j<7;j++){
                 if(e.getSource()==gumbi.get(i*7+j)){
                     MyButton neki=gumbi.get(i*7+j);
-                    neki.isprintajtekst();
+                    int dan=neki.getDan();
+                    int mjesec=neki.getMjesec();
+                    int godina=neki.getGodina();
+                    System.out.println(dan + "." + mjesec + "." + godina);
+                    new RasporedFrame(dan,mjesec,godina);
                     
                 }
             }
