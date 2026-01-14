@@ -260,14 +260,16 @@ public class KalendarFrame extends JFrame implements ActionListener{
     
     //Konstruktor sa parametrima ako će nam ikad trebat
     //Konstruktor prima mjesec i godinu
-    /*KalendarFrame(int trenutnagodina,int trenutnimjesec){
+    KalendarFrame(int godina,int mjesec){
         
+        trenutnimjesec=mjesec;
+        trenutnagodina=godina;
         //Nađem trenutnioffset
         trenutnioffset=nadioffset(trenutnagodina,trenutnimjesec+1);
         trenutnimjesecstring = new DateFormatSymbols().getMonths()[trenutnimjesec];
         
         //Nađem koliko ovaj i prošli mjesec imaju dana
-        if(trenutnimjesec==0){
+                if(trenutnimjesec==0){
             kolikoovajmjesecimadana=mjeseci.get(0);
             kolikoproslimjesecimadana=mjeseci.get(11);
         }
@@ -276,7 +278,8 @@ public class KalendarFrame extends JFrame implements ActionListener{
             kolikoproslimjesecimadana=mjeseci.get(trenutnimjesec-1);
         }
         
-        //Dodam gumbe za lijevo i desno
+        //Stvorim gumb za lijevo i desno,pozicioniram ih stavim ikone na njih i dodam ActionListenere da
+        //zapravo naprave nešto kad ih kliknem
         left =new JButton();
         right= new JButton();
         left.setBounds(0,200,50,50);
@@ -294,16 +297,89 @@ public class KalendarFrame extends JFrame implements ActionListener{
         left.addActionListener(this);
         right.addActionListener(this);
         
-        //Dodam naslov
+        //Stavim naslov
         JLabel naslov=new JLabel();
         naslov.setText(trenutnimjesecstring+" "+trenutnagodina);
-        naslov.setBounds(400, 50, 200, 50);
+        naslov.setFont(new Font("Calibri",Font.PLAIN,50));
+
+        JPanel naslov2=new JPanel();
+        naslov2.setPreferredSize(new Dimension(2000,60));
+        naslov2.setBackground(Color.WHITE);
+        naslov2.add(naslov,BorderLayout.CENTER);
         
-        JPanel datumGumbiPanel= new JPanel();
-        datumGumbiPanel.setPreferredSize(new Dimension(500,500));
-        datumGumbiPanel.setBackground(Color.lightGray);
-        datumGumbiPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        //Dodam gumbe s datumima, dodam actionListenere i dodam ih u frame
+        JPanel naslov3=new JPanel();
+        naslov3.setPreferredSize(new Dimension(2000,40));
+        naslov3.setBackground(Color.lightGray);
+        naslov3.setBorder(new EmptyBorder(0,60,0,0));
+        for(int j=0;j<7;j++){
+            JLabel danutjednu=new JLabel();
+            danutjednu.setText(daniutjednu.get(j));
+            danutjednu.setPreferredSize(new Dimension(100,40));
+            danutjednu.setFont(new Font("Calibri",Font.PLAIN,25));
+            naslov3.add(danutjednu,BorderLayout.CENTER);
+        }
+        
+        JPanel naslovPanel=new JPanel();
+        naslovPanel.setBackground(new Color(150,150,150));
+        naslovPanel.setPreferredSize(new Dimension(800,120));
+        naslovPanel.add(naslov2,BorderLayout.NORTH);
+        naslovPanel.add(naslov3,BorderLayout.SOUTH);
+        
+        JPanel datumGumbiPanel1=new JPanel();
+        JPanel datumGumbiPanel11=new JPanel();
+        JPanel datumGumbiPanel12=new JPanel();
+        JPanel datumGumbiPanel111=new JPanel();
+        JPanel datumGumbiPanel112=new JPanel();
+        JPanel datumGumbiPanel113=new JPanel();
+        JPanel datumGumbiPanel121=new JPanel();
+        JPanel datumGumbiPanel122=new JPanel();
+        JPanel datumGumbiPanel123=new JPanel();
+        
+        datumGumbiPanel1.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel11.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel12.setBorder(new EmptyBorder(-5,0,0,0));
+        
+        datumGumbiPanel111.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel112.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel113.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel121.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel122.setBorder(new EmptyBorder(-5,0,0,0));
+        datumGumbiPanel123.setBorder(new EmptyBorder(-5,0,0,0));
+                
+        datumGumbiPanel1.setBackground(new Color(210,210,210));
+        datumGumbiPanel11.setBackground(new Color(210,210,210));
+        datumGumbiPanel12.setBackground(new Color(210,210,210));
+        datumGumbiPanel111.setBackground(new Color(220,220,220));
+        datumGumbiPanel112.setBackground(new Color(230,230,230));
+        datumGumbiPanel113.setBackground(new Color(240,240,240));
+        datumGumbiPanel121.setBackground(new Color(220,220,220));
+        datumGumbiPanel122.setBackground(new Color(230,230,230));
+        datumGumbiPanel123.setBackground(new Color(240,240,240));
+        
+        datumGumbiPanel1.setPreferredSize(new Dimension(2000,2000));
+        datumGumbiPanel11.setPreferredSize(new Dimension(2000,160));
+        datumGumbiPanel12.setPreferredSize(new Dimension(2000,160));
+        datumGumbiPanel111.setPreferredSize(new Dimension(2000,50));
+        datumGumbiPanel112.setPreferredSize(new Dimension(2000,50));
+        datumGumbiPanel113.setPreferredSize(new Dimension(2000,50));
+        datumGumbiPanel121.setPreferredSize(new Dimension(2000,50));
+        datumGumbiPanel122.setPreferredSize(new Dimension(2000,50));
+        datumGumbiPanel123.setPreferredSize(new Dimension(2000,50));
+        
+        
+        
+        JPanel lijeviGumbPanel=new JPanel();
+        lijeviGumbPanel.setBackground(new Color(100,100,100));
+        lijeviGumbPanel.setPreferredSize(new Dimension(100,100));
+        lijeviGumbPanel.add(left,BorderLayout.CENTER);
+        
+        JPanel desniGumbPanel=new JPanel();
+        desniGumbPanel.setBackground(new Color(100,100,100));
+        desniGumbPanel.setPreferredSize(new Dimension(100,100));
+        desniGumbPanel.add(right,BorderLayout.CENTER);
+        
+        
+        //Dodam sve gumbe za datume, pozicioniram ih i dodam ih u frame
         for (int i=0;i<6;i++){
             for(int j=0;j<7;j++){
                 String novistring;
@@ -316,6 +392,7 @@ public class KalendarFrame extends JFrame implements ActionListener{
                         }
                     novistring=novidan + "." + novimjesec;
                     novi= new JButton(novistring);
+                    novi.setPreferredSize(new Dimension(100,50));
                     novi.setEnabled(false);
                 }else if(i*7+j+1-trenutnioffset<=0){
                     int novidan=i*7+j+1-trenutnioffset+kolikoproslimjesecimadana;
@@ -325,39 +402,64 @@ public class KalendarFrame extends JFrame implements ActionListener{
                     }
                     novistring=novidan + "." + novimjesec;
                     novi= new JButton(novistring);
+                    novi.setPreferredSize(new Dimension(100,50));
                     novi.setEnabled(false);
                 }else{
                     int novidan=i*7+j+1-trenutnioffset;
                     int novimjesec=trenutnimjesec+1;
                     novistring=novidan + "." + novimjesec;
                     novi= new JButton(novistring);
+                    novi.setPreferredSize(new Dimension(100,50));
                     novi.setEnabled(true);
                 }
-
-
+                
+                
                 gumbi.add(novi);
                 novi.addActionListener(this);
-                datumGumbiPanel.add(novi);
+                switch(i){
+                    case 0:
+                        datumGumbiPanel111.add(novi);
+                        break;
+                    case 1:
+                        datumGumbiPanel112.add(novi);
+                        break;
+                    case 2:
+                        datumGumbiPanel113.add(novi);
+                        break;
+                    case 3:
+                        datumGumbiPanel121.add(novi);
+                        break;
+                    case 4:
+                        datumGumbiPanel122.add(novi);
+                        break;
+                    default:
+                        datumGumbiPanel123.add(novi);
+                        break;
+                }
             }
-
+            
         }
         //Dodam oznake za dane u tjednu
-        for(int j=0;j<7;j++){
-            JLabel danutjednu=new JLabel();
-            danutjednu.setText(daniutjednu.get(j));
-            danutjednu.setBounds(100*j+140, 50, 200, 50);
-            this.add(danutjednu);
-        }
-        //Dodam sve u frame
-        this.add(naslov);
-        this.add(left);
-        this.add(right);
-        this.add(datumGumbiPanel);
+        
+        datumGumbiPanel11.add(datumGumbiPanel111,BorderLayout.NORTH);
+        datumGumbiPanel11.add(datumGumbiPanel112,BorderLayout.CENTER);
+        datumGumbiPanel11.add(datumGumbiPanel113,BorderLayout.SOUTH);
+        datumGumbiPanel12.add(datumGumbiPanel121,BorderLayout.NORTH);
+        datumGumbiPanel12.add(datumGumbiPanel122,BorderLayout.CENTER);
+        datumGumbiPanel12.add(datumGumbiPanel123,BorderLayout.SOUTH);
+        
+        datumGumbiPanel1.add(datumGumbiPanel11,BorderLayout.NORTH);
+        datumGumbiPanel1.add(datumGumbiPanel12,BorderLayout.SOUTH);
+        //Dodam sve stvari u frame
+        
+        this.add(lijeviGumbPanel,BorderLayout.WEST);
+        this.add(desniGumbPanel,BorderLayout.EAST);
+        this.add(naslovPanel,BorderLayout.NORTH);
+        this.add(datumGumbiPanel1,BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
         this.setSize(1000,500);
         this.setVisible(true);
-    }*/
+    }
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==left){
@@ -795,7 +897,9 @@ public class KalendarFrame extends JFrame implements ActionListener{
                     int mjesec=Integer.parseInt(datum[1]);
                     int godina=trenutnagodina;
                     System.out.println(dan + "." + mjesec + "." + godina);
-                    new RasporedFrame(dan,mjesec,godina);
+                    RasporedFrame noviRasporedFrame=new RasporedFrame(dan,mjesec,godina);
+                    noviRasporedFrame.setVisible(true);
+                    dispose();
                     
                 }
             }
