@@ -12,6 +12,9 @@ package com.mycompany.kalendar;
 public class Kalendar {
 
     public static void main(String[] args) {
-        new KalendarFrame();
+        
+        new UlogiravanjeFrame();
+        
+
     }
 }
