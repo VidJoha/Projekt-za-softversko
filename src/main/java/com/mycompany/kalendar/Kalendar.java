@@ -13,6 +13,8 @@ public class Kalendar {
 
     public static void main(String[] args) {
         
+        DbInit.init();
+        
         new UlogiravanjeFrame();
 
 
