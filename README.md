@@ -19,5 +19,5 @@ db.password=password
 db.params=useSSL=true&serverTimezone=UTC
 
 Za username unijeti svoj, za password unijeti svoj jmbag.
-Ako ste uspješno unijeli svoje podatke bi vam pokretanjem programa trebale biti kreirane tablice u bazi.
+Ako ste uspješno unijeli svoje podatke pokretanjem DbCreateTables bi trebale biti kreirane tablice u bazi, a pokretanjem DbSeedTables bi trebali biti uneseni podaci.
 db.properties stavljamo pod .gitignore da se ne sprema na git !
