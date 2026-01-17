@@ -4,17 +4,19 @@
  */
 package com.mycompany.kalendar;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
 
 /**
  *
  * @author Klara
  */
-public class DbInit {
+public class DbCreateTables {
 
-    public static void init() {
+    public static void init() throws NoSuchAlgorithmException {
 
         String createUsers = """
             CREATE TABLE IF NOT EXISTS users (
@@ -25,7 +27,7 @@ public class DbInit {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """;
-        
+
         String createGroups = """
             CREATE TABLE IF NOT EXISTS groups (
                 group_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -138,7 +140,8 @@ public class DbInit {
                 DbConfig.getUser(),
                 DbConfig.getPassword());
              Statement st = conn.createStatement()) {
-
+            
+            
             st.execute(createUsers);
             st.execute(createGroups);
             st.execute(createGroupMembers);
@@ -156,4 +159,12 @@ public class DbInit {
             e.printStackTrace();
         }
     }
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        
+        DbCreateTables.init();
+        
+
+
+    }
+
 }

@@ -4,6 +4,8 @@
 
 package com.mycompany.kalendar;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  *
  * @author Vid
@@ -11,9 +13,7 @@ package com.mycompany.kalendar;
 //Program koji otvara prozor
 public class Kalendar {
 
-    public static void main(String[] args) {
-        
-        DbInit.init();
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         
         new UlogiravanjeFrame();
 
