@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
+import javax.swing.JOptionPane;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -26,6 +29,14 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
     JButton ulogirajgumb;
     JButton registrirajgumb;
     JButton loginskipgumb;
+    
+    JTextField ime;
+    JPasswordField lozinka;
+
+    JTextField Rime;
+    JPasswordField Rlozinka;
+    JTextField Rmail;
+
 
     UlogiravanjeFrame(){   
         JLabel naslov=new JLabel("Ulogirajte se");
@@ -37,8 +48,8 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         naslovPanel11.add(naslov,BorderLayout.CENTER);
         
         
-        JTextField ime=new JTextField();
-        JTextField lozinka=new JTextField();
+        ime=new JTextField();
+        lozinka=new JPasswordField();
         ime.setPreferredSize(new Dimension(100,30));
         lozinka.setPreferredSize(new Dimension(100,30));
         
@@ -76,9 +87,9 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         RnaslovPanel11.add(Rnaslov,BorderLayout.CENTER);
         
         
-        JTextField Rime=new JTextField();
-        JTextField Rlozinka=new JTextField();
-        JTextField Rmail=new JTextField();
+        Rime=new JTextField();
+        Rlozinka=new JPasswordField();
+        Rmail=new JTextField();
         Rime.setPreferredSize(new Dimension(100,30));
         Rlozinka.setPreferredSize(new Dimension(100,30));
         Rmail.setPreferredSize(new Dimension(100,30));
@@ -147,8 +158,49 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
             KalendarFrame noviKalendarFrame=new KalendarFrame();
             noviKalendarFrame.setVisible(true);
             dispose();
-            
+        }
+        if (e.getSource() == ulogirajgumb) {
+                try {
+                    boolean ok = AuthService.login(
+                            ime.getText().trim(),
+                            new String(lozinka.getPassword())
+                    );
+
+                    if (ok) {
+                        JOptionPane.showMessageDialog(this, "Uspješna prijava!");
+                        new KalendarFrame().setVisible(true);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Krivo korisničko ime ili lozinka.");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Greška baze: " + ex.getMessage());
+                }
+            }
+
+            if (e.getSource() == registrirajgumb) {
+                try {
+                    boolean ok = AuthService.register(
+                            Rime.getText().trim(),
+                            Rmail.getText().trim(),
+                            new String(Rlozinka.getPassword())
+                    );
+
+                    if (ok) {
+                        JOptionPane.showMessageDialog(this, "Registracija uspješna!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Korisnik ili email već postoji.");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Greška registracije: " + ex.getMessage());
+                }
+            }
+
+        }
+
     }
-   
-    }
-}
+

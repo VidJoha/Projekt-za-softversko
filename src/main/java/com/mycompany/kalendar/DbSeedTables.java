@@ -120,7 +120,9 @@ public class DbSeedTables {
     }
     public static void main(String[] args) throws NoSuchAlgorithmException {
         
+        System.out.println("SEED START");
         DbSeedTables.init();
+        System.out.println("SEED END");
 
 
     }
