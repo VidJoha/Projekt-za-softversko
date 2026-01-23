@@ -26,7 +26,7 @@ public class AuthService {
     }
 
     // REGISTER
-    public static boolean register(String username, String email, String plainPassword) throws SQLException {
+    public static int register(String username, String email, String plainPassword) throws SQLException {
 
         String sql = """
             INSERT INTO users (username, email, password_hash)
@@ -41,16 +41,16 @@ public class AuthService {
             ps.setString(3, hashPassword(plainPassword));
 
             ps.executeUpdate();
-            return true;
+            return idFromUsername(username);
 
         } catch (SQLIntegrityConstraintViolationException e) {
             // username ili email već postoji (UNIQUE)
-            return false;
+            return -1;
         }
     }
 
     // LOGIN
-    public static boolean login(String username, String plainPassword) throws SQLException {
+    public static int login(String username, String plainPassword) throws SQLException {
 
         String sql = "SELECT password_hash FROM users WHERE username = ? LIMIT 1";
 
@@ -61,12 +61,27 @@ public class AuthService {
 
             try (ResultSet rs = ps.executeQuery()) {
 
-                if (!rs.next()) return false;
+                if (!rs.next()) return -1;
 
                 String storedHash = rs.getString("password_hash");
                 String inputHash = hashPassword(plainPassword);
 
-                return storedHash.equals(inputHash);
+                if (storedHash.equals(inputHash)) return idFromUsername(username);
+                else return -1;
+            }
+        }
+    }
+    
+    // user_id iz username
+    public static int idFromUsername(String username) throws SQLException {
+        String sql = "SELECT user_id FROM username WHERE username = ?";
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1,username);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (!rs.next()) return -1;
+                return rs.getInt("user_id");
             }
         }
     }

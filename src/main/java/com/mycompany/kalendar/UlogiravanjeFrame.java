@@ -155,20 +155,20 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         if(e.getSource()==loginskipgumb){
             System.out.println("Idem zatvorit prozor");
             System.out.println("I otvorit novi");
-            KalendarFrame noviKalendarFrame=new KalendarFrame();
+            KalendarFrame noviKalendarFrame=new KalendarFrame(1);
             noviKalendarFrame.setVisible(true);
             dispose();
         }
         if (e.getSource() == ulogirajgumb) {
                 try {
-                    boolean ok = AuthService.login(
+                    int userid = AuthService.login(
                             ime.getText().trim(),
                             new String(lozinka.getPassword())
                     );
 
-                    if (ok) {
+                    if (userid!=-1) {
                         JOptionPane.showMessageDialog(this, "Uspješna prijava!");
-                        new KalendarFrame().setVisible(true);
+                        new KalendarFrame(userid).setVisible(true);
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "Krivo korisničko ime ili lozinka.");
@@ -182,13 +182,13 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
 
             if (e.getSource() == registrirajgumb) {
                 try {
-                    boolean ok = AuthService.register(
+                    int userid = AuthService.register(
                             Rime.getText().trim(),
                             Rmail.getText().trim(),
                             new String(Rlozinka.getPassword())
                     );
 
-                    if (ok) {
+                    if (userid!=-1) {
                         JOptionPane.showMessageDialog(this, "Registracija uspješna!");
                     } else {
                         JOptionPane.showMessageDialog(this, "Korisnik ili email već postoji.");

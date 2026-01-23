@@ -48,11 +48,13 @@ public class KalendarFrame extends JFrame implements ActionListener{
     int kolikoovajmjesecimadana;
     int kolikoproslimjesecimadana;
     String trenutnimjesecstring;
+    int trenutniuserid;
     JButton left;
     JButton right;
     
-    //Konstruktor bez parametara
-    KalendarFrame(){
+    //Konstruktor sa samo korisničkim id
+    KalendarFrame(int userid){
+        trenutniuserid = userid;
 
         //Dohvatimo trenutni datum i uzmem redni broj i naziv mjeseca
         //Također nađem trenutnioffset
@@ -260,8 +262,8 @@ public class KalendarFrame extends JFrame implements ActionListener{
     
     //Konstruktor sa parametrima ako će nam ikad trebat
     //Konstruktor prima mjesec i godinu
-    KalendarFrame(int godina,int mjesec){
-        
+    KalendarFrame(int userid,int godina,int mjesec){
+        trenutniuserid=userid;
         trenutnimjesec=mjesec;
         trenutnagodina=godina;
         //Nađem trenutnioffset
@@ -897,7 +899,7 @@ public class KalendarFrame extends JFrame implements ActionListener{
                     int mjesec=Integer.parseInt(datum[1]);
                     int godina=trenutnagodina;
                     System.out.println(dan + "." + mjesec + "." + godina);
-                    RasporedFrame noviRasporedFrame=new RasporedFrame(dan,mjesec,godina);
+                    RasporedFrame noviRasporedFrame=new RasporedFrame(trenutniuserid,dan,mjesec,godina);
                     noviRasporedFrame.setVisible(true);
                     dispose();
                     
