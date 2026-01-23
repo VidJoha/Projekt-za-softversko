@@ -6,6 +6,7 @@ package com.mycompany.kalendar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
@@ -19,7 +20,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 /**
  *
@@ -30,11 +33,42 @@ public class RasporedFrame  extends JFrame implements ActionListener{
     private int RasporedMjesec;
     private int RasporedGodina;
     int RasporedUserId;
+    JPanel rasporedPanel;
     
     JButton dodaj;
     JButton premjesti;
     JButton makni;
     JButton izađi;
+    void updateRasporedPanel() {
+        rasporedPanel.removeAll();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement st = conn.prepareStatement("""
+                                                          SELECT * FROM events WHERE
+                                                          start_time>=? AND end_time<? AND event_id IN (
+                                                          SELECT event_id FROM event_participants WHERE user_id=?)
+                                                          ORDER BY start_time
+                                                          """)){
+            GregorianCalendar startCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan),
+                    endCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan);
+            endCalendar.add(GregorianCalendar.DAY_OF_YEAR,1);
+            java.sql.Timestamp startTime=new java.sql.Timestamp(startCalendar.getTime().getTime()),
+                    endTime=new java.sql.Timestamp(endCalendar.getTime().getTime());
+            st.setTimestamp(1,startTime);
+            st.setTimestamp(2,endTime);
+            st.setInt(3,RasporedUserId);
+            ResultSet res=st.executeQuery();
+            while (res.next()) {
+                JLabel opisEventa=new JLabel();
+                String ime=res.getString("title");
+                java.sql.Timestamp poc=res.getTimestamp("start_time"),kraj=res.getTimestamp("end_time");
+                opisEventa.setText("%s: %tR - %tR".formatted(ime,poc.toLocalDateTime(),kraj.toLocalDateTime()));
+                opisEventa.setFont(new Font("Calibri",Font.PLAIN,20));
+                rasporedPanel.add(opisEventa);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     RasporedFrame(int userid, int dan, int mjesec, int godina){
         RasporedUserId=userid;
         RasporedDan=dan;
@@ -67,6 +101,7 @@ public class RasporedFrame  extends JFrame implements ActionListener{
         makni.setText("Makni sastanak");
         makni.setFont(new Font("Calibri",Font.PLAIN,20));
         makni.setMargin(new Insets(0, 0, 0, 0));
+        makni.addActionListener(this);
         
         izađi=new JButton();
         izađi.setText("Vrati se na kalendar");
@@ -88,36 +123,11 @@ public class RasporedFrame  extends JFrame implements ActionListener{
         gumbiPanel.add(makni);
         gumbiPanel.add(izađi);
         
-        JPanel rasporedPanel=new JPanel();
+        rasporedPanel=new JPanel();
         rasporedPanel.setBackground(new Color(220,220,220));
         rasporedPanel.setPreferredSize(new Dimension(200,200));
-        try (Connection conn = Db.getConnection();
-             PreparedStatement st = conn.prepareStatement("""
-                                                          SELECT * FROM events WHERE
-                                                          start_time>=? AND end_time<? AND event_id IN (
-                                                          SELECT event_id FROM event_participants WHERE user_id=?)
-                                                          ORDER BY start_time
-                                                          """)){
-            GregorianCalendar startCalendar=new GregorianCalendar(godina,mjesec-1,dan),
-                    endCalendar=new GregorianCalendar(godina,mjesec-1,dan);
-            endCalendar.add(GregorianCalendar.DAY_OF_YEAR,1);
-            java.sql.Timestamp startTime=new java.sql.Timestamp(startCalendar.getTime().getTime()),
-                    endTime=new java.sql.Timestamp(endCalendar.getTime().getTime());
-            st.setTimestamp(1,startTime);
-            st.setTimestamp(2,endTime);
-            st.setInt(3,RasporedUserId);
-            ResultSet res=st.executeQuery();
-            while (res.next()) {
-                JLabel opisEventa=new JLabel();
-                String ime=res.getString("title");
-                java.sql.Timestamp poc=res.getTimestamp("start_time"),kraj=res.getTimestamp("end_time");
-                opisEventa.setText("%s: %tR - %tR".formatted(ime,poc.toLocalDateTime(),kraj.toLocalDateTime()));
-                opisEventa.setFont(new Font("Calibri",Font.PLAIN,20));
-                rasporedPanel.add(opisEventa);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        rasporedPanel.setLayout(new BoxLayout(rasporedPanel, BoxLayout.Y_AXIS));
+        updateRasporedPanel();
         JPanel rasporedPanel2=new JPanel();
         rasporedPanel2.setBackground(new Color(240,240,240));
         rasporedPanel2.setPreferredSize(new Dimension(200,50));
@@ -141,14 +151,84 @@ public class RasporedFrame  extends JFrame implements ActionListener{
         }
         if (e.getSource()==dodaj){
             System.out.println("dodavanje");
-            JPanel dodajPanel=new DodajEventPanel(RasporedUserId,RasporedDan,RasporedMjesec,RasporedGodina);
+            DodajEventPanel dodajPanel=new DodajEventPanel(RasporedUserId,RasporedDan,RasporedMjesec,RasporedGodina);
             
             int result=JOptionPane.showConfirmDialog(null,dodajPanel,"Dodavanje eventa",JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
-                try (Connection conn = Db.getConnection()) {
-
-                } catch (Exception exc) {
-                    exc.printStackTrace();
+                if (dodajPanel.isTimeValid()) {
+                    dodajPanel.addToDb();
+                    updateRasporedPanel();
+                    rasporedPanel.revalidate();
+                    rasporedPanel.repaint();
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,
+                        "Vrijeme koje ste odabrali je već zauzeto.",
+                        "Greška pri dodavanju eventa",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        if (e.getSource()==makni) {
+            ArrayList<String> labelTexts=new ArrayList<String>();
+            Component[] labels=rasporedPanel.getComponents();
+            for (int i=0;i<labels.length;++i) {
+                labelTexts.add(((JLabel)labels[i]).getText());
+            }
+            if (labelTexts.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                    "Nema eventova za brisati.",
+                    "Greška pri micanju eventa",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                Object[] options=labelTexts.toArray();
+                String chosenOption=(String)JOptionPane.showInputDialog(
+                    null,
+                    "Koji event želite maknuti?",
+                    "Micanje eventa",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+                if (chosenOption!=null && chosenOption.length()>0) {
+                    try (Connection conn = Db.getConnection()) {
+                        PreparedStatement st = conn.prepareStatement("""
+                                                          SELECT * FROM events WHERE
+                                                          start_time>=? AND end_time<? AND event_id IN (
+                                                          SELECT event_id FROM event_participants WHERE user_id=?)
+                                                          ORDER BY start_time
+                                                          """);
+                        GregorianCalendar startCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan),
+                                endCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan);
+                        endCalendar.add(GregorianCalendar.DAY_OF_YEAR,1);
+                        java.sql.Timestamp startTime=new java.sql.Timestamp(startCalendar.getTime().getTime()),
+                                endTime=new java.sql.Timestamp(endCalendar.getTime().getTime());
+                        st.setTimestamp(1,startTime);
+                        st.setTimestamp(2,endTime);
+                        st.setInt(3,RasporedUserId);
+                        ResultSet res=st.executeQuery();
+                        while (res.next()) {
+                            String ime=res.getString("title");
+                            java.sql.Timestamp poc=res.getTimestamp("start_time"),kraj=res.getTimestamp("end_time");
+                            String curLabel="%s: %tR - %tR".formatted(ime,poc.toLocalDateTime(),kraj.toLocalDateTime());
+                            System.out.println(curLabel+"/"+chosenOption);
+                            if (curLabel.equals(chosenOption)) {
+                                int eventId=res.getInt("event_id");
+                                PreparedStatement eventsDelete = conn.prepareStatement("DELETE FROM events WHERE event_id=?");
+                                PreparedStatement participantsDelete = conn.prepareStatement("DELETE FROM event_participants WHERE event_id=?");
+                                eventsDelete.setInt(1,eventId);
+                                participantsDelete.setInt(1,eventId);
+                                eventsDelete.executeUpdate();
+                                participantsDelete.executeUpdate();
+                                updateRasporedPanel();
+                                rasporedPanel.revalidate();
+                                rasporedPanel.repaint();
+                            }
+                        }
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
                 }
             }
         }
