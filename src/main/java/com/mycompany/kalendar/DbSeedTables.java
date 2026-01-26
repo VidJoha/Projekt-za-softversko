@@ -54,6 +54,12 @@ public class DbSeedTables {
             st.execute(seedEventMember(2,4));
             st.execute(seedEventMember(3,5));
             st.execute(seedEventMember(3,6));
+            st.execute(seedMeetingProposal(1,1,"Predaja projekta","VOTING"));
+            st.execute(seedProposalParticipants(1,1));
+            st.execute(seedProposalParticipants(1,2));
+            st.execute(seedProposalSlots(1,"2026-01-29 11:00:00","2026-01-29 12:00:00","LOCKED"));
+            st.execute(seedProposalSlots(1,"2026-01-29 13:00:00","2026-01-29 14:00:00","LOCKED"));
+            st.execute(seedProposalSlots(1,"2026-01-29 15:00:00","2026-01-29 16:00:00","LOCKED"));
             
             
             
@@ -118,6 +124,32 @@ public class DbSeedTables {
                 """.formatted(event_id,user_id);
         return seedEventMember;
     }
+    public static String seedMeetingProposal(int group_id,int created_by,String title,String status){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = LocalDateTime.now().format(formatter);
+        String seedMeetingProposal = """
+                INSERT INTO meeting_proposals (group_id,created_by,title,status,created_at) 
+                VALUES ('%s', '%s', '%s', '%s', '%s');
+                """.formatted(group_id,created_by,title,status,timestamp);
+        return seedMeetingProposal;
+    }
+    public static String seedProposalParticipants(int proposal_id,int user_id){
+        String seedProposalParticipants = """
+                INSERT INTO proposal_participants (proposal_id,user_id) 
+                VALUES ('%s', '%s');
+                """.formatted(proposal_id,user_id);
+        return seedProposalParticipants;
+    }
+    public static String seedProposalSlots(int proposal_id,String start_time,String end_time,String status){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startTime = LocalDateTime.parse(start_time, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(end_time, formatter);
+        String seedProposalSlots = """
+                INSERT INTO proposal_slots (proposal_id,start_time,end_time,status) 
+                VALUES ('%s', '%s', '%s', '%s');
+                """.formatted(proposal_id,startTime,endTime,status);
+        return seedProposalSlots;
+    }
     public static void main(String[] args) throws NoSuchAlgorithmException {
         
         System.out.println("SEED START");
@@ -127,3 +159,11 @@ public class DbSeedTables {
 
     }
 }
+
+
+
+
+
+
+
+

@@ -160,6 +160,7 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
             dispose();
         }
         if (e.getSource() == ulogirajgumb) {
+            System.out.println("Idem se ulogirat");
                 try {
                     int userid = AuthService.login(
                             ime.getText().trim(),

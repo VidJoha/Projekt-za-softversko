@@ -7,6 +7,7 @@ package com.mycompany.kalendar;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Base64;
 
 /**
@@ -74,7 +75,7 @@ public class AuthService {
     
     // user_id iz username
     public static int idFromUsername(String username) throws SQLException {
-        String sql = "SELECT user_id FROM username WHERE username = ?";
+        String sql = "SELECT user_id FROM users WHERE username = ?";
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,username);
@@ -84,5 +85,62 @@ public class AuthService {
                 return rs.getInt("user_id");
             }
         }
+    }
+    public static ArrayList<Integer> allProposals(int trenutniuserid){
+        String sql = "SELECT proposal_id FROM proposal_participants WHERE user_id = ?";
+        ArrayList<Integer> idsvihproposala=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,trenutniuserid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihproposala.add(rs.getInt("proposal_id"));
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idsvihproposala;
+    }
+    public static ArrayList<Integer> allSlots(int proposal_id){
+        String sql = "SELECT slot_id FROM proposal_slots WHERE proposal_id = ?";
+        ArrayList<Integer> idsvihslotova=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihslotova.add(rs.getInt("slot_id"));
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idsvihslotova;
+    }
+    public static String getTitle(int proposal_id){
+        String sql = "SELECT title FROM meeting_proposals WHERE proposal_id = ?";
+        String naslov=new String();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    naslov=rs.getString("title");
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return naslov;
     }
 }
