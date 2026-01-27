@@ -1020,6 +1020,13 @@ public class KalendarFrame extends JFrame implements ActionListener{
             noviGlasajFrame.setVisible(true);
             dispose();
         }
+        
+        if (e.getSource() == novagrupa) {
+            System.out.println("Idem otvoriti novi prozor za kreiranje grupe");
+            NovaGrupaFrame ng = new NovaGrupaFrame(trenutniuserid);
+            ng.setVisible(true);
+            dispose(); 
+        }
     }
     //Funkcija koja traži offset
     private static Integer nadioffset(int godina, int mjesec){
@@ -1042,7 +1049,8 @@ public class KalendarFrame extends JFrame implements ActionListener{
             default:
                 return 6;
         }
-    }   
+    }
+    
         
         
     }
