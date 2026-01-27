@@ -2,6 +2,7 @@ com\mycompany\kalendar\GlasajFrame.class
 com\mycompany\kalendar\PanelFrame.class
 com\mycompany\kalendar\Interval.class
 com\mycompany\kalendar\MyButton.class
+com\mycompany\kalendar\OdlučiFrame.class
 com\mycompany\kalendar\Db.class
 com\mycompany\kalendar\KalendarFrame.class
 com\mycompany\kalendar\CheckBoxUser.class

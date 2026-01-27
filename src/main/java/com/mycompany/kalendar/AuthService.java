@@ -105,6 +105,27 @@ public class AuthService {
         }
         return idsvihproposala;
     }
+    public static ArrayList<Integer> allProposalsWhereOwner(int trenutniuserid){
+        String sql = "SELECT proposal_id FROM meeting_proposals WHERE created_by = ?";
+        ArrayList<Integer> idsvihproposala=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,trenutniuserid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihproposala.add(rs.getInt("proposal_id"));
+
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return idsvihproposala;
+    }
     public static ArrayList<Integer> allSlots(int proposal_id){
         String sql = "SELECT slot_id FROM proposal_slots WHERE proposal_id = ?";
         ArrayList<Integer> idsvihslotova=new ArrayList<>();
@@ -142,6 +163,27 @@ public class AuthService {
             e.printStackTrace();
         }
         return idsvihčlanova;
+    }
+    public static Integer allVotes(int proposal_id,int slot_id){
+        String sql = "SELECT * FROM votes WHERE proposal_id = ? AND slot_id=?";
+        int brojglasova=0;
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+            ps.setInt(2, slot_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    brojglasova+=1;
+                }
+                
+            }
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return brojglasova;
     }
     public static int lastproposal(){
         String sql = "SELECT proposal_id FROM meeting_proposals";

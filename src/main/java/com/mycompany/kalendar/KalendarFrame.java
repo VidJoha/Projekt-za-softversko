@@ -1020,6 +1020,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             noviGlasajFrame.setVisible(true);
             dispose();
         }
+        if(e.getSource()==odluči){
+            OdlučiFrame noviOdlučiFrame=new OdlučiFrame(trenutniuserid,trenutnimjesec,trenutnagodina);
+            noviOdlučiFrame.setVisible(true);
+            dispose();
+        }
         
         if (e.getSource() == novagrupa) {
             System.out.println("Idem otvoriti novi prozor za kreiranje grupe");

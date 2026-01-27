@@ -4,7 +4,6 @@
  */
 package com.mycompany.kalendar;
 
-import static com.mycompany.kalendar.DbSeedTables.seedVotes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,17 +12,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -31,75 +27,75 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Vid
  */
-public class GlasajFrame extends JFrame implements ActionListener{
-    private int RasporedMjesec;
-    private int RasporedGodina;
+public class OdlučiFrame extends JFrame implements ActionListener{
+    private final int RasporedMjesec;
+    private final int RasporedGodina;
     int RasporedUserId;
     
     ArrayList<Integer> sviproposali;
-    ArrayList<Integer> svitogglebuttoniselected;
-    ArrayList<JButton> svitogglebuttonizaglasat;
-    ArrayList<Integer> sviproposalizaglasat;
-    ArrayList<Integer> svislotovizaglasat;
-    ArrayList<Integer> svezasubmit;
+    ArrayList<JButton> svitogglebuttonizaodabrat;
+    ArrayList<Integer> sviproposalizaodabrat;
+    ArrayList<Integer> svislotovizaodabrat;
+
     
-    JPanel glasanjePanel=new JPanel();
-    JButton izlazak=new JButton("Vrati se na kalendar");
-    JButton submitglasove=new JButton("Predaj glasove");
-    
-    GlasajFrame(int trenutniuserid,int trenutnimjesec,int trenutnagodina){
-        RasporedMjesec=trenutnimjesec;
-        RasporedGodina=trenutnagodina;
+    JButton izlazak=new JButton("Vrati se na kalendar");;
+    JButton submit=new JButton("Odluči za termine");;
+    OdlučiFrame(int trenutniuserid,int trenutnimjesec,int trenutnagodina){
         RasporedUserId=trenutniuserid;
-        
-        sviproposali=new ArrayList<>();
-        svitogglebuttoniselected=new ArrayList<>();
-        svitogglebuttonizaglasat=new ArrayList<>();
-        sviproposalizaglasat=new ArrayList<>();
-        svislotovizaglasat=new ArrayList<>();
-        svezasubmit=new ArrayList<>();
+        RasporedGodina=trenutnagodina;
+        RasporedMjesec=trenutnimjesec;
+        sviproposali=AuthService.allProposalsWhereOwner(RasporedUserId);
+        svitogglebuttonizaodabrat=new ArrayList<>();
+        sviproposalizaodabrat=new ArrayList<>();
+        svislotovizaodabrat=new ArrayList<>();
+
+        JPanel odlučivanjePanel=new JPanel();
+        BoxLayout boxlayout = new BoxLayout(odlučivanjePanel, BoxLayout.Y_AXIS);
+        odlučivanjePanel.setLayout(boxlayout);
+        odlučivanjePanel.setBackground(Color.lightGray);
+        odlučivanjePanel.setBorder(new EmptyBorder(new Insets(50, 100, 50, 100)));
         
         JPanel naslovPanel=new JPanel();
         JPanel naslovPanel1=new JPanel();
         JPanel naslovPanel2=new JPanel();
         JLabel naslovLabel1=new JLabel();
         JLabel naslovLabel2=new JLabel();
-        String line1="Ovo su eventi za koje možeš glasati";
-        String line2="Označi sve termine koji ti odgovaraju i klikni";
+        String line1="Ovo su eventi za koje možeš odlučiti termin";
+        String line2="Klikni na termin koji želiš za taj event";
         naslovLabel1.setText(line1);
         naslovLabel2.setText(line2);
         naslovLabel1.setFont(new Font("Calibri",Font.PLAIN,30));
         naslovLabel2.setFont(new Font("Calibri",Font.PLAIN,30));
         
-        naslovPanel1.setBackground(Color.lightGray);
-        naslovPanel2.setBackground(Color.lightGray);
+        naslovLabel1.setBackground(Color.lightGray);
+        naslovLabel2.setBackground(Color.lightGray);
+        naslovLabel1.setOpaque(true);
+        naslovLabel2.setOpaque(true);
+        naslovLabel1.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
+        naslovLabel2.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
         naslovPanel1.add(naslovLabel1);
         naslovPanel2.add(naslovLabel2);
-        naslovPanel.setPreferredSize(new Dimension(2000,110));
+        naslovPanel1.setPreferredSize(new Dimension(2000,50));
+        naslovPanel2.setPreferredSize(new Dimension(2000,50));
+        naslovPanel.setPreferredSize(new Dimension(2000,115));
         naslovPanel.add(naslovPanel1,BorderLayout.NORTH);
         naslovPanel.add(naslovPanel2,BorderLayout.SOUTH);
-        
         this.add(naslovPanel,BorderLayout.NORTH);
         
         JPanel izlazakPanel=new JPanel();
         izlazak.setPreferredSize(new Dimension(200,50));
         izlazak.addActionListener(this);
         izlazakPanel.add(izlazak);
-        submitglasove.addActionListener(this);
-        submitglasove.setPreferredSize(new Dimension(200,50));
-        izlazakPanel.add(submitglasove);
+        submit.addActionListener(this);
+        submit.setPreferredSize(new Dimension(200,50));
+        izlazakPanel.add(submit);
         this.add(izlazakPanel,BorderLayout.SOUTH);
-        
-        
-        BoxLayout boxlayout = new BoxLayout(glasanjePanel, BoxLayout.Y_AXIS);
-        glasanjePanel.setLayout(boxlayout);
-        glasanjePanel.setBorder(new EmptyBorder(new Insets(100, 150, 100, 150)));
-        sviproposali=AuthService.allProposals(trenutniuserid);
         int prviprolaz;
-
+        System.out.println(sviproposali);
+        
         for(int i=0;i<sviproposali.size();i++){
-            
             String title=AuthService.getTitle(sviproposali.get(i));
+            
             JLabel terminLabelNaslov=new JLabel();
             terminLabelNaslov.setText(title);
             JPanel terminPanel=new JPanel();
@@ -107,31 +103,35 @@ public class GlasajFrame extends JFrame implements ActionListener{
             terminPanel.setPreferredSize(new Dimension(2000,50));
             terminPanel.setBackground(Color.lightGray);
             prviprolaz=1;
-
             String sql = "SELECT * FROM proposal_slots WHERE proposal_id = ?";
-            
+
             try (Connection conn = Db.getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1,sviproposali.get(i));
                 
                 try (ResultSet rs = ps.executeQuery()) {
                     while(rs.next()){
-                        svezasubmit.add(0);
-                        sviproposalizaglasat.add(sviproposali.get(i));
-                        svislotovizaglasat.add(rs.getInt("slot_id"));
-                        svitogglebuttoniselected.add(0);
+                        sviproposalizaodabrat.add(sviproposali.get(i));
+                        svislotovizaodabrat.add(rs.getInt("slot_id"));
+                        
                         if(prviprolaz==1){
-                            
-                            
 
+                            
+                            
                             java.sql.Timestamp poc=rs.getTimestamp("start_time"),kraj=rs.getTimestamp("end_time");
                             JLabel terminDatumLabel=new JLabel();
                             String dateToString=poc.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                            
+                            int slot_id=rs.getInt("slot_id");
+                            int brojglasova=AuthService.allVotes(sviproposali.get(i), slot_id);
+
+                            JLabel brojglasovazaterminLabel=new JLabel("Broj glasova: "+Integer.toString(brojglasova));
+                            
                             terminDatumLabel.setText(dateToString);
                             terminPanel.add(terminDatumLabel);
                             
                             JButton terminButton=new JButton();
-                            svitogglebuttonizaglasat.add(terminButton);
+                            svitogglebuttonizaodabrat.add(terminButton);
                             
                             terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
 
@@ -139,6 +139,7 @@ public class GlasajFrame extends JFrame implements ActionListener{
                             terminButton.addActionListener(this);
                             terminButton.setBackground(Color.WHITE);
                             terminPanel.add(terminButton);
+                            terminPanel.add(brojglasovazaterminLabel);
                             
                             prviprolaz=0;
                         }
@@ -146,8 +147,12 @@ public class GlasajFrame extends JFrame implements ActionListener{
 
                             java.sql.Timestamp poc=rs.getTimestamp("start_time"),kraj=rs.getTimestamp("end_time");
                             
+                            int slot_id=rs.getInt("slot_id");
+                            int brojglasova=AuthService.allVotes(sviproposali.get(i), slot_id);
+                            JLabel brojglasovazaterminLabel=new JLabel("Broj glasova: "+Integer.toString(brojglasova));
+
                             JButton terminButton=new JButton();
-                            svitogglebuttonizaglasat.add(terminButton);
+                            svitogglebuttonizaodabrat.add(terminButton);
                             
                             terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
                             
@@ -155,6 +160,7 @@ public class GlasajFrame extends JFrame implements ActionListener{
                             terminButton.addActionListener(this);
                             terminButton.setBackground(Color.WHITE);
                             terminPanel.add(terminButton);
+                            terminPanel.add(brojglasovazaterminLabel);
                             
                             
                             prviprolaz=0;
@@ -166,11 +172,14 @@ public class GlasajFrame extends JFrame implements ActionListener{
             catch (Exception e) {
                 e.printStackTrace();
             }
-            glasanjePanel.add(terminPanel);        
-            
+            odlučivanjePanel.add(terminPanel);
         }
 
-        this.add(glasanjePanel,BorderLayout.CENTER);
+        
+        
+        
+        
+        this.add(odlučivanjePanel,BorderLayout.CENTER);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(1000,1000);
         this.setVisible(true);
@@ -182,46 +191,6 @@ public class GlasajFrame extends JFrame implements ActionListener{
             noviKalendarFrame.setVisible(true);
             dispose();
         }
-        if(e.getSource()==submitglasove){
-            int jelvotepostoji;
-            try (Connection conn = DriverManager.getConnection(
-                DbConfig.getUrl(),
-                DbConfig.getUser(),
-                DbConfig.getPassword());
-             Statement st = conn.createStatement()) {
-                for(int i=0;i<svitogglebuttoniselected.size();i++){
-                    jelvotepostoji=AuthService.isVoteSubmitted(sviproposalizaglasat.get(i),svislotovizaglasat.get(i),RasporedUserId);
-                    if(svitogglebuttoniselected.get(i)==1 && jelvotepostoji==0){
-                        System.out.println(sviproposalizaglasat.get(i)+" "+svislotovizaglasat.get(i)+" "+RasporedUserId);
-                        st.execute(seedVotes(sviproposalizaglasat.get(i),svislotovizaglasat.get(i),RasporedUserId));
-                    }
-                }
-                } catch (Exception error) {
-                error.printStackTrace();
-            }
-            JOptionPane.showMessageDialog(this, "Uspješno glasanje!");
-            new KalendarFrame(RasporedUserId,RasporedGodina,RasporedMjesec).setVisible(true);
-            dispose();
-        }
-        for(int i=0;i<svitogglebuttonizaglasat.size();i++){
-            if(e.getSource()==svitogglebuttonizaglasat.get(i)){
-                if(svitogglebuttoniselected.get(i)==0){
-                    svitogglebuttoniselected.set(i,1);
-                    svezasubmit.set(i,1);
-                    svitogglebuttonizaglasat.get(i).setBackground(Color.GRAY);
-                    System.out.println("Postavio sam gumb "+i+" na 1");
-                }
-                else{
-                    svitogglebuttoniselected.set(i,0);
-                    svezasubmit.set(i,0);
-                    svitogglebuttonizaglasat.get(i).setBackground(Color.WHITE);
-                    System.out.println("Postavio sam gumb "+i+" na 0");
-                }
-           
-            }
-        }
-        
     }
-    
     
 }
