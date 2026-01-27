@@ -114,7 +114,6 @@ public class DbCreateTables {
                 slot_id INT NOT NULL,
                 user_id INT NOT NULL,
                 vote_value INT DEFAULT 1,
-                PRIMARY KEY (proposal_id, user_id),
                 FOREIGN KEY (proposal_id) REFERENCES meeting_proposals(proposal_id) ON DELETE CASCADE,
                 FOREIGN KEY (slot_id) REFERENCES proposal_slots(slot_id) ON DELETE CASCADE,
                 FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

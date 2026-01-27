@@ -124,6 +124,46 @@ public class AuthService {
         }
         return idsvihslotova;
     }
+    public static ArrayList<Integer> allMembers(int group_id){
+        String sql = "SELECT user_id FROM group_members WHERE group_id = ?";
+        ArrayList<Integer> idsvihčlanova=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,group_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihčlanova.add(rs.getInt("user_id"));
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idsvihčlanova;
+    }
+    public static int lastproposal(){
+        String sql = "SELECT proposal_id FROM meeting_proposals";
+        ArrayList<Integer> idsvihproposala=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihproposala.add(rs.getInt("proposal_id"));
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(idsvihproposala.isEmpty()){
+            return 1;
+        }
+        return idsvihproposala.get(idsvihproposala.size()-1)+1;
+    }
     public static String getTitle(int proposal_id){
         String sql = "SELECT title FROM meeting_proposals WHERE proposal_id = ?";
         String naslov=new String();
@@ -142,5 +182,28 @@ public class AuthService {
             e.printStackTrace();
         }
         return naslov;
+    }
+    public static Integer isVoteSubmitted(int proposal_id,int slot_id,int user_id){
+        String sql = "SELECT * FROM votes WHERE proposal_id = ? AND slot_id=? AND user_id=?";
+
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+            ps.setInt(2,slot_id);
+            ps.setInt(3,user_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if(rs.next()){
+                    System.out.println(proposal_id+" "+slot_id+" "+ user_id+" vec postoji");
+                    return 1;
+                }
+                
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

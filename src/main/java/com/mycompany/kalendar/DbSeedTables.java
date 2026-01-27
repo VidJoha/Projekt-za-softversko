@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
 
 /**
@@ -54,12 +55,14 @@ public class DbSeedTables {
             st.execute(seedEventMember(2,4));
             st.execute(seedEventMember(3,5));
             st.execute(seedEventMember(3,6));
-            st.execute(seedMeetingProposal(1,1,"Predaja projekta","VOTING"));
-            st.execute(seedProposalParticipants(1,1));
-            st.execute(seedProposalParticipants(1,2));
+            seedMeetingProposal(1,1,"Predaja projekta","VOTING");
             st.execute(seedProposalSlots(1,"2026-01-29 11:00:00","2026-01-29 12:00:00","LOCKED"));
             st.execute(seedProposalSlots(1,"2026-01-29 13:00:00","2026-01-29 14:00:00","LOCKED"));
             st.execute(seedProposalSlots(1,"2026-01-29 15:00:00","2026-01-29 16:00:00","LOCKED"));
+            seedMeetingProposal(1,1,"Pub Kviz","VOTING");
+            st.execute(seedProposalSlots(2,"2026-01-25 11:00:00","2026-01-29 13:00:00","LOCKED"));
+            st.execute(seedProposalSlots(2,"2026-01-25 13:00:00","2026-01-29 15:00:00","LOCKED"));
+            st.execute(seedProposalSlots(2,"2026-01-25 15:00:00","2026-01-29 17:00:00","LOCKED"));
             
             
             
@@ -124,14 +127,32 @@ public class DbSeedTables {
                 """.formatted(event_id,user_id);
         return seedEventMember;
     }
-    public static String seedMeetingProposal(int group_id,int created_by,String title,String status){
+    public static void seedMeetingProposal(int group_id,int created_by,String title,String status){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String timestamp = LocalDateTime.now().format(formatter);
         String seedMeetingProposal = """
                 INSERT INTO meeting_proposals (group_id,created_by,title,status,created_at) 
                 VALUES ('%s', '%s', '%s', '%s', '%s');
                 """.formatted(group_id,created_by,title,status,timestamp);
-        return seedMeetingProposal;
+        
+        ArrayList<Integer> članovigrupe;
+        članovigrupe=AuthService.allMembers(group_id);
+        int idzadnjegproposala=AuthService.lastproposal();
+        
+            try (Connection conn = DriverManager.getConnection(
+                DbConfig.getUrl(),
+                DbConfig.getUser(),
+                DbConfig.getPassword());
+             Statement st = conn.createStatement()) {
+                st.execute(seedMeetingProposal);
+                for(int i=0;i<članovigrupe.size();i++){
+                    st.execute(seedProposalParticipants(idzadnjegproposala,članovigrupe.get(i)));
+                }
+                
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
+        
     }
     public static String seedProposalParticipants(int proposal_id,int user_id){
         String seedProposalParticipants = """
@@ -149,6 +170,13 @@ public class DbSeedTables {
                 VALUES ('%s', '%s', '%s', '%s');
                 """.formatted(proposal_id,startTime,endTime,status);
         return seedProposalSlots;
+    }
+    public static String seedVotes(int proposal_id,int slot_id,int user_id){
+        String seedVotes = """
+                INSERT INTO votes (proposal_id,slot_id,user_id,vote_value) 
+                VALUES ('%s', '%s', '%s', '%s');
+                """.formatted(proposal_id,slot_id,user_id,1);
+        return seedVotes;
     }
     public static void main(String[] args) throws NoSuchAlgorithmException {
         

@@ -1,6 +1,5 @@
 com\mycompany\kalendar\GlasajFrame.class
 com\mycompany\kalendar\PanelFrame.class
-com\mycompany\kalendar\GlasajFrame$2.class
 com\mycompany\kalendar\Interval.class
 com\mycompany\kalendar\MyButton.class
 com\mycompany\kalendar\Db.class
@@ -11,7 +10,6 @@ com\mycompany\kalendar\NovaGrupaFrame.class
 com\mycompany\kalendar\AuthService.class
 com\mycompany\kalendar\DbCreateTables.class
 com\mycompany\kalendar\UlogiravanjeFrame.class
-com\mycompany\kalendar\GlasajFrame$1.class
 com\mycompany\kalendar\DodajEventPanel.class
 com\mycompany\kalendar\RasporedFrame.class
 com\mycompany\kalendar\DodajEventPanel$1.class
