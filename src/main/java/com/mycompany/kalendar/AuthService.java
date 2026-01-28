@@ -7,6 +7,8 @@ package com.mycompany.kalendar;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -225,6 +227,142 @@ public class AuthService {
         }
         return naslov;
     }
+    public static Integer getGroupId(int proposal_id){
+        String sql = "SELECT group_id FROM meeting_proposals WHERE proposal_id = ?";
+        int group_id=0;
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    group_id=rs.getInt("group_id");
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return group_id;
+    }
+    public static Integer getCreatedBy(int proposal_id){
+        String sql = "SELECT created_by FROM meeting_proposals WHERE proposal_id = ?";
+        int created_by=0;
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,proposal_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    created_by=rs.getInt("created_by");
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return created_by;
+    }
+    public static String getStartTime(int slot_id){
+        String sql = "SELECT start_time FROM proposal_slots WHERE slot_id = ?";
+        LocalDateTime start_time = null;
+        String start_time_string = null;
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,slot_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    start_time=rs.getObject("start_time",LocalDateTime.class);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    
+                    // 3. Convert to string
+                    start_time_string = start_time.format(formatter);
+                    System.out.println(start_time_string);
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return start_time_string;
+    }
+    public static String getEndTime(int slot_id){
+        String sql = "SELECT end_time FROM proposal_slots WHERE slot_id = ?";
+        LocalDateTime end_time = null;
+        String end_time_string = null;
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,slot_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    end_time=rs.getObject("end_time",LocalDateTime.class);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    
+                    // 3. Convert to string
+                    end_time_string = end_time.format(formatter);
+                    System.out.println(end_time_string);
+                    
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return end_time_string;
+    }
+    public static Date getEndTimeDate(int slot_id){
+        String sql = "SELECT end_time FROM proposal_slots WHERE slot_id = ?";
+        Date end_time = null;
+
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,slot_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    end_time=rs.getDate("end_time");
+
+                    System.out.println(end_time);
+                    
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return end_time;
+    }
+    public static Date getStartTimeDate(int slot_id){
+        String sql = "SELECT start_time FROM proposal_slots WHERE slot_id = ?";
+        Date start_time = null;
+
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,slot_id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    start_time=rs.getDate("start_time");
+
+                    System.out.println(start_time);
+                    
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return start_time;
+    }
+    
     public static Integer isVoteSubmitted(int proposal_id,int slot_id,int user_id){
         String sql = "SELECT * FROM votes WHERE proposal_id = ? AND slot_id=? AND user_id=?";
 

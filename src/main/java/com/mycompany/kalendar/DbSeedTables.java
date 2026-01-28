@@ -63,6 +63,10 @@ public class DbSeedTables {
             st.execute(seedProposalSlots(2,"2026-01-25 11:00:00","2026-01-29 13:00:00","LOCKED"));
             st.execute(seedProposalSlots(2,"2026-01-25 13:00:00","2026-01-29 15:00:00","LOCKED"));
             st.execute(seedProposalSlots(2,"2026-01-25 15:00:00","2026-01-29 17:00:00","LOCKED"));
+            seedMeetingProposal(1,1,"Kava","VOTING");
+            st.execute(seedProposalSlots(3,"2026-01-24 10:00:00","2026-01-24 13:00:00","LOCKED"));
+            st.execute(seedProposalSlots(3,"2026-01-24 12:00:00","2026-01-24 15:00:00","LOCKED"));
+            st.execute(seedProposalSlots(3,"2026-01-24 13:00:00","2026-01-24 17:00:00","LOCKED"));
             
             
             
@@ -120,6 +124,15 @@ public class DbSeedTables {
                 """.formatted(group_id,created_by,title,startTime,endTime,status,timestamp);
         return seedEvent;
     }
+    public static String seedEventWithDates(int group_id,int created_by,String title,java.sql.Date start_time,java.sql.Date end_time,String status){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = LocalDateTime.now().format(formatter);
+        String seedEvent = """
+                INSERT INTO events (group_id, created_by, title, start_time,end_time,status,created_at) 
+                VALUES ('%s', '%s', '%s', '%s', '%s', '%s','%s');
+                """.formatted(group_id,created_by,title,start_time,end_time,status,timestamp);
+        return seedEvent;
+    }
     public static String seedEventMember(int event_id,int user_id){
         String seedEventMember = """
                 INSERT INTO event_participants (event_id, user_id) 
@@ -127,6 +140,31 @@ public class DbSeedTables {
                 """.formatted(event_id,user_id);
         return seedEventMember;
     }
+    public static String removeProposals(int proposal_id){
+        String seedEventMember = """
+                DELETE FROM meeting_proposals WHERE proposal_id=%d;
+                """.formatted(proposal_id);
+        return seedEventMember;
+    }
+    public static String removeProposalParticipants(int proposal_id){
+        String seedEventMember = """
+                DELETE FROM proposal_participants WHERE proposal_id =%d;
+                """.formatted(proposal_id);
+        return seedEventMember;
+    }
+    public static String removeProposalSlots(int proposal_id){
+        String seedEventMember = """
+                DELETE FROM proposal_slots WHERE proposal_id=%d;
+                """.formatted(proposal_id);
+        return seedEventMember;
+    }
+    public static String removeVotes(int proposal_id){
+        String seedEventMember = """
+                DELETE FROM votes WHERE proposal_id=%d;
+                """.formatted(proposal_id);
+        return seedEventMember;
+    }
+    
     public static void seedMeetingProposal(int group_id,int created_by,String title,String status){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String timestamp = LocalDateTime.now().format(formatter);

@@ -109,7 +109,7 @@ public class MyButton extends JButton {
             
             
             System.out.println("Popravljam tablice");
-            /*st.execute(createProposals);
+            st.execute(createProposals);
             st.execute(createProposalParticipants);
             st.execute(createProposalSlots);
             seedMeetingProposal(1,1,"Predaja projekta","VOTING");
@@ -123,7 +123,7 @@ public class MyButton extends JButton {
             seedMeetingProposal(1,1,"Kava","VOTING");
             st.execute(seedProposalSlots(3,"2026-01-24 10:00:00","2026-01-24 13:00:00","LOCKED"));
             st.execute(seedProposalSlots(3,"2026-01-24 12:00:00","2026-01-24 15:00:00","LOCKED"));
-            st.execute(seedProposalSlots(3,"2026-01-24 13:00:00","2026-01-24 17:00:00","LOCKED"));*/
+            st.execute(seedProposalSlots(3,"2026-01-24 13:00:00","2026-01-24 17:00:00","LOCKED"));
             st.execute(createVotes);
             System.out.println("Sve tablice uspješno inicijalizirane.");
 
