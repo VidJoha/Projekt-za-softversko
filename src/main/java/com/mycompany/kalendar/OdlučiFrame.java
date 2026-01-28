@@ -4,6 +4,7 @@
  */
 package com.mycompany.kalendar;
 
+import static com.mycompany.kalendar.DbSeedTables.seedEventMember;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,7 +43,7 @@ public class OdlučiFrame extends JFrame implements ActionListener{
     ArrayList<Integer> sviproposalizaodabrat;
     ArrayList<Integer> svislotovizaodabrat;
     JPanel odlučivanjePanel;
-    
+    int zadnjievent=AuthService.lastevent();
     JButton izlazak=new JButton("Vrati se na kalendar");
 
     OdlučiFrame(int trenutniuserid,int trenutnimjesec,int trenutnagodina){
@@ -210,7 +211,14 @@ public class OdlučiFrame extends JFrame implements ActionListener{
                 DbConfig.getUser(),
                 DbConfig.getPassword());
              Statement st = conn.createStatement()) {
-                st.execute(DbSeedTables.seedEvent(grupa,created_by,title,start_time,end_time,"CONFIREMD"));
+                    
+                st.execute(DbSeedTables.seedEvent(grupa,created_by,title,start_time,end_time,"CONFIRMED"));
+                ArrayList<Integer> members=AuthService.allMembers(grupa);
+
+                    for(int j=0;j<members.size();j++){
+                        st.execute(seedEventMember(zadnjievent,members.get(j)));
+                    }
+                    zadnjievent+=1;
                 System.out.println("Odabran novi event");
                 st.execute(DbSeedTables.removeProposals(sviproposalizaodabrat.get(i)));
                 st.execute(DbSeedTables.removeProposalSlots(sviproposalizaodabrat.get(i)));
@@ -229,6 +237,7 @@ public class OdlučiFrame extends JFrame implements ActionListener{
         }
     }
     void updateOdlučivanjePanel(){
+        
         odlučivanjePanel.removeAll();
         sviproposali=AuthService.allProposalsWhereOwner(RasporedUserId);
         svitogglebuttonizaodabrat=new ArrayList<>();

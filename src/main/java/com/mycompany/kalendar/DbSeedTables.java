@@ -60,9 +60,9 @@ public class DbSeedTables {
             st.execute(seedProposalSlots(1,"2026-01-29 13:00:00","2026-01-29 14:00:00","LOCKED"));
             st.execute(seedProposalSlots(1,"2026-01-29 15:00:00","2026-01-29 16:00:00","LOCKED"));
             seedMeetingProposal(1,1,"Pub Kviz","VOTING");
-            st.execute(seedProposalSlots(2,"2026-01-25 11:00:00","2026-01-29 13:00:00","LOCKED"));
-            st.execute(seedProposalSlots(2,"2026-01-25 13:00:00","2026-01-29 15:00:00","LOCKED"));
-            st.execute(seedProposalSlots(2,"2026-01-25 15:00:00","2026-01-29 17:00:00","LOCKED"));
+            st.execute(seedProposalSlots(2,"2026-01-25 11:00:00","2026-01-25 13:00:00","LOCKED"));
+            st.execute(seedProposalSlots(2,"2026-01-25 13:00:00","2026-01-25 15:00:00","LOCKED"));
+            st.execute(seedProposalSlots(2,"2026-01-25 15:00:00","2026-01-25 17:00:00","LOCKED"));
             seedMeetingProposal(1,1,"Kava","VOTING");
             st.execute(seedProposalSlots(3,"2026-01-24 10:00:00","2026-01-24 13:00:00","LOCKED"));
             st.execute(seedProposalSlots(3,"2026-01-24 12:00:00","2026-01-24 15:00:00","LOCKED"));

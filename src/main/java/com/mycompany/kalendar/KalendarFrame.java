@@ -54,6 +54,7 @@ public class KalendarFrame extends JFrame implements ActionListener{
     JButton glasaj;
     JButton odluči;
     JButton novagrupa;
+    JButton logout;
 
     
     //Konstruktor sa samo korisničkim id
@@ -206,8 +207,12 @@ public class KalendarFrame extends JFrame implements ActionListener{
         
         JPanel desniGumbPanel=new JPanel();
         desniGumbPanel.setBackground(new Color(100,100,100));
-        desniGumbPanel.setPreferredSize(new Dimension(100,100));
-        desniGumbPanel.add(right,BorderLayout.CENTER);
+        desniGumbPanel.setPreferredSize(new Dimension(100,1000));
+        desniGumbPanel.add(right,BorderLayout.NORTH);
+        logout=new JButton("Logout");
+        logout.setPreferredSize(new Dimension(150,50));
+        logout.addActionListener(this);
+        desniGumbPanel.add(logout);
         
         
         //Dodam sve gumbe za datume, pozicioniram ih i dodam ih u frame
@@ -438,6 +443,10 @@ public class KalendarFrame extends JFrame implements ActionListener{
         desniGumbPanel.setPreferredSize(new Dimension(100,100));
         desniGumbPanel.add(right,BorderLayout.CENTER);
         
+        logout=new JButton("Logout");
+        logout.setPreferredSize(new Dimension(150,50));
+        logout.addActionListener(this);
+        desniGumbPanel.add(logout);
         
         //Dodam sve gumbe za datume, pozicioniram ih i dodam ih u frame
         for (int i=0;i<6;i++){
@@ -673,6 +682,10 @@ public class KalendarFrame extends JFrame implements ActionListener{
             desniGumbPanel.setPreferredSize(new Dimension(100,100));
             desniGumbPanel.add(right,BorderLayout.CENTER);
             
+            logout=new JButton("Logout");
+            logout.setPreferredSize(new Dimension(150,50));
+            logout.addActionListener(this);
+            desniGumbPanel.add(logout);
             //Dodaj nove gumbe
             for (int i=0;i<6;i++){
                 for(int j=0;j<7;j++){
@@ -910,6 +923,10 @@ public class KalendarFrame extends JFrame implements ActionListener{
             desniGumbPanel.setPreferredSize(new Dimension(100,100));
             desniGumbPanel.add(right,BorderLayout.CENTER);
             
+            logout=new JButton("Logout");
+            logout.setPreferredSize(new Dimension(150,50));
+            logout.addActionListener(this);
+            desniGumbPanel.add(logout);
             //Dodaj nove gumbe i njihove ActionListenere
             for (int i=0;i<6;i++){
                 for(int j=0;j<7;j++){
@@ -1031,6 +1048,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             NovaGrupaFrame ng = new NovaGrupaFrame(trenutniuserid);
             ng.setVisible(true);
             dispose(); 
+        }
+        if(e.getSource()==logout){
+            UlogiravanjeFrame ulog=new UlogiravanjeFrame();
+            ulog.setVisible(true);
+            dispose();
         }
     }
     //Funkcija koja traži offset

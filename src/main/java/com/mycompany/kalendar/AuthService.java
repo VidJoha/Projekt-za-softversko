@@ -208,6 +208,28 @@ public class AuthService {
         }
         return idsvihproposala.get(idsvihproposala.size()-1)+1;
     }
+    public static int lastevent(){
+        String sql = "SELECT event_id FROM events";
+        ArrayList<Integer> idsvihevenata=new ArrayList<>();
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
+                    idsvihevenata.add(rs.getInt("event_id"));
+                }
+                
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(idsvihevenata.isEmpty()){
+            return 1;
+        }
+        System.out.println(idsvihevenata.get(idsvihevenata.size()-1)+1);
+        return idsvihevenata.get(idsvihevenata.size()-1)+1;
+    }
     public static String getTitle(int proposal_id){
         String sql = "SELECT title FROM meeting_proposals WHERE proposal_id = ?";
         String naslov=new String();
