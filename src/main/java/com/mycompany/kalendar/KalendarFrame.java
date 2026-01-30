@@ -104,11 +104,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
         JPanel naslovLabelPanel=new JPanel();
         JLabel naslovlabel=new JLabel();
         naslovlabel.setText(trenutnimjesecstring+" "+trenutnagodina);
-        naslovlabel.setFont(new Font("Calibri",Font.PLAIN,60));
+        naslovlabel.setFont(new Font("Calibri",Font.PLAIN,50));
         naslovLabelPanel.add(naslovlabel);
         naslovLabelPanel.setBackground(Color.WHITE);
-        naslovLabelPanel.setPreferredSize(new Dimension(400,60));
-        naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,-30));
+        naslovLabelPanel.setPreferredSize(new Dimension(500,60));
+        naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,50));
         
         JPanel naslov2=new JPanel();
         naslov2.setPreferredSize(new Dimension(2000,60));
@@ -123,11 +123,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
         glasaj.addActionListener(this);
         odluči.addActionListener(this);
         novagrupa.addActionListener(this);
-        glasaj.setPreferredSize(new Dimension(150,50));
-        odluči.setPreferredSize(new Dimension(150,50));
-        novagrupa.setPreferredSize(new Dimension(150,50));
+        glasaj.setPreferredSize(new Dimension(175,50));
+        odluči.setPreferredSize(new Dimension(175,50));
+        novagrupa.setPreferredSize(new Dimension(175,50));
         JPanel naslovgumbi=new JPanel();
-        naslovgumbi.setPreferredSize(new Dimension(500,60));
+        naslovgumbi.setPreferredSize(new Dimension(600,60));
         naslovgumbi.setBackground(Color.GRAY);
         naslovgumbi.add(glasaj);
         naslovgumbi.add(odluči);
@@ -293,7 +293,7 @@ public class KalendarFrame extends JFrame implements ActionListener{
         this.add(naslovPanel,BorderLayout.NORTH);
         this.add(datumGumbiPanel1,BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000,500);
+        this.setSize(1200,500);
         this.setVisible(true);
         
     }
@@ -341,11 +341,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
         JPanel naslovLabelPanel=new JPanel();
         JLabel naslovlabel=new JLabel();
         naslovlabel.setText(trenutnimjesecstring+" "+trenutnagodina);
-        naslovlabel.setFont(new Font("Calibri",Font.PLAIN,60));
+        naslovlabel.setFont(new Font("Calibri",Font.PLAIN,50));
         naslovLabelPanel.add(naslovlabel);
         naslovLabelPanel.setBackground(Color.WHITE);
-        naslovLabelPanel.setPreferredSize(new Dimension(400,60));
-        naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,-30));
+        naslovLabelPanel.setPreferredSize(new Dimension(500,60));
+        naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,50));
         
         JPanel naslov2=new JPanel();
         naslov2.setPreferredSize(new Dimension(2000,60));
@@ -360,11 +360,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
         glasaj.addActionListener(this);
         odluči.addActionListener(this);
         novagrupa.addActionListener(this);
-        glasaj.setPreferredSize(new Dimension(150,50));
-        odluči.setPreferredSize(new Dimension(150,50));
-        novagrupa.setPreferredSize(new Dimension(150,50));
+        glasaj.setPreferredSize(new Dimension(175,50));
+        odluči.setPreferredSize(new Dimension(175,50));
+        novagrupa.setPreferredSize(new Dimension(175,50));
         JPanel naslovgumbi=new JPanel();
-        naslovgumbi.setPreferredSize(new Dimension(500,60));
+        naslovgumbi.setPreferredSize(new Dimension(600,60));
         naslovgumbi.setBackground(Color.GRAY);
         naslovgumbi.add(glasaj);
         naslovgumbi.add(odluči);
@@ -526,7 +526,7 @@ public class KalendarFrame extends JFrame implements ActionListener{
         this.add(naslovPanel,BorderLayout.NORTH);
         this.add(datumGumbiPanel1,BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000,500);
+        this.setSize(1200,500);
         this.setVisible(true);
     }
     @Override
@@ -580,11 +580,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             JPanel naslovLabelPanel=new JPanel();
             JLabel naslovlabel=new JLabel();
             naslovlabel.setText(trenutnimjesecstring+" "+trenutnagodina);
-            naslovlabel.setFont(new Font("Calibri",Font.PLAIN,60));
+            naslovlabel.setFont(new Font("Calibri",Font.PLAIN,50));
             naslovLabelPanel.add(naslovlabel);
             naslovLabelPanel.setBackground(Color.WHITE);
-            naslovLabelPanel.setPreferredSize(new Dimension(400,60));
-            naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,-30));
+            naslovLabelPanel.setPreferredSize(new Dimension(500,60));
+            naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,50));
 
             JPanel naslov2=new JPanel();
             naslov2.setPreferredSize(new Dimension(2000,60));
@@ -599,11 +599,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             glasaj.addActionListener(this);
             odluči.addActionListener(this);
             novagrupa.addActionListener(this);
-            glasaj.setPreferredSize(new Dimension(150,50));
-            odluči.setPreferredSize(new Dimension(150,50));
-            novagrupa.setPreferredSize(new Dimension(150,50));
+            glasaj.setPreferredSize(new Dimension(175,50));
+            odluči.setPreferredSize(new Dimension(175,50));
+            novagrupa.setPreferredSize(new Dimension(175,50));
             JPanel naslovgumbi=new JPanel();
-            naslovgumbi.setPreferredSize(new Dimension(500,60));
+            naslovgumbi.setPreferredSize(new Dimension(600,60));
             naslovgumbi.setBackground(Color.GRAY);
             naslovgumbi.add(glasaj);
             naslovgumbi.add(odluči);
@@ -821,11 +821,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             JPanel naslovLabelPanel=new JPanel();
             JLabel naslovlabel=new JLabel();
             naslovlabel.setText(trenutnimjesecstring+" "+trenutnagodina);
-            naslovlabel.setFont(new Font("Calibri",Font.PLAIN,60));
+            naslovlabel.setFont(new Font("Calibri",Font.PLAIN,50));
             naslovLabelPanel.add(naslovlabel);
             naslovLabelPanel.setBackground(Color.WHITE);
-            naslovLabelPanel.setPreferredSize(new Dimension(400,60));
-            naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,-30));
+            naslovLabelPanel.setPreferredSize(new Dimension(500,60));
+            naslovLabelPanel.setBorder(new EmptyBorder(-5,0,0,50));
 
             JPanel naslov2=new JPanel();
             naslov2.setPreferredSize(new Dimension(2000,60));
@@ -840,11 +840,11 @@ public class KalendarFrame extends JFrame implements ActionListener{
             glasaj.addActionListener(this);
             odluči.addActionListener(this);
             novagrupa.addActionListener(this);
-            glasaj.setPreferredSize(new Dimension(150,50));
-            odluči.setPreferredSize(new Dimension(150,50));
-            novagrupa.setPreferredSize(new Dimension(150,50));
+            glasaj.setPreferredSize(new Dimension(175,50));
+            odluči.setPreferredSize(new Dimension(175,50));
+            novagrupa.setPreferredSize(new Dimension(175,50));
             JPanel naslovgumbi=new JPanel();
-            naslovgumbi.setPreferredSize(new Dimension(500,60));
+            naslovgumbi.setPreferredSize(new Dimension(600,60));
             naslovgumbi.setBackground(Color.GRAY);
             naslovgumbi.add(glasaj);
             naslovgumbi.add(odluči);

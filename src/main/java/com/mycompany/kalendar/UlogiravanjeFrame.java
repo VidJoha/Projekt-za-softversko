@@ -65,7 +65,7 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         
         
         ulogirajgumb=new JButton("Ulogiraj se");
-        ulogirajgumb.setPreferredSize(new Dimension(100,50));
+        ulogirajgumb.setPreferredSize(new Dimension(150,50));
         ulogirajgumb.addActionListener(this);
         JPanel naslovPanel13=new JPanel();
         naslovPanel13.setPreferredSize(new Dimension(2000,60));
@@ -108,7 +108,7 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         RnaslovPanel12.add(Rmail,BorderLayout.CENTER);
         
         
-        registrirajgumb=new JButton("Registriraj me");
+        registrirajgumb=new JButton("Registriraj se");
         registrirajgumb.setPreferredSize(new Dimension(150,50));
         registrirajgumb.addActionListener(this);
         JPanel RnaslovPanel13=new JPanel();

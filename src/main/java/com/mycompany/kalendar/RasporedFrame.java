@@ -17,9 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.BoxLayout;
@@ -51,8 +51,13 @@ public class RasporedFrame  extends JFrame implements ActionListener{
             GregorianCalendar startCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan),
                     endCalendar=new GregorianCalendar(RasporedGodina,RasporedMjesec-1,RasporedDan);
             endCalendar.add(GregorianCalendar.DAY_OF_YEAR,1);
+            
             java.sql.Timestamp startTime=new java.sql.Timestamp(startCalendar.getTime().getTime()),
                     endTime=new java.sql.Timestamp(endCalendar.getTime().getTime());
+            SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            System.out.println("StartTime " + localDateFormat.format( startTime));
+            System.out.println("EndTime " + localDateFormat.format( endTime));
+
             st.setTimestamp(1,startTime);
             st.setTimestamp(2,endTime);
             st.setInt(3,RasporedUserId);
