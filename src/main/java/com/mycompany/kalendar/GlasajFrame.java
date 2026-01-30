@@ -184,6 +184,7 @@ public class GlasajFrame extends JFrame implements ActionListener{
         }
         if(e.getSource()==submitglasove){
             int jelvotepostoji;
+            int jelistauneseno=0;
             try (Connection conn = DriverManager.getConnection(
                 DbConfig.getUrl(),
                 DbConfig.getUser(),
@@ -194,14 +195,21 @@ public class GlasajFrame extends JFrame implements ActionListener{
                     if(svitogglebuttoniselected.get(i)==1 && jelvotepostoji==0){
                         System.out.println(sviproposalizaglasat.get(i)+" "+svislotovizaglasat.get(i)+" "+RasporedUserId);
                         st.execute(seedVotes(sviproposalizaglasat.get(i),svislotovizaglasat.get(i),RasporedUserId));
+                        jelistauneseno=1;
                     }
                 }
                 } catch (Exception error) {
                 error.printStackTrace();
             }
-            JOptionPane.showMessageDialog(this, "Uspješno glasanje!");
-            new KalendarFrame(RasporedUserId,RasporedGodina,RasporedMjesec).setVisible(true);
-            dispose();
+            if(jelistauneseno==0){
+                JOptionPane.showMessageDialog(this, "Nema nikakvih glasova za unijeti");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Uspješno glasanje!");
+                new KalendarFrame(RasporedUserId,RasporedGodina,RasporedMjesec).setVisible(true);
+                dispose();
+            }
+            
         }
         for(int i=0;i<svitogglebuttonizaglasat.size();i++){
             if(e.getSource()==svitogglebuttonizaglasat.get(i)){
