@@ -125,10 +125,10 @@ public class GlasajFrame extends JFrame implements ActionListener{
                             
 
                             java.sql.Timestamp poc=rs.getTimestamp("start_time"),kraj=rs.getTimestamp("end_time");
-                            JLabel terminDatumLabel=new JLabel();
+                            /*JLabel terminDatumLabel=new JLabel();
                             String dateToString=poc.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                             terminDatumLabel.setText(dateToString);
-                            terminPanel.add(terminDatumLabel);
+                            terminPanel.add(terminDatumLabel);*/
                             
                             JButton terminButton=new JButton();
                             svitogglebuttonizaglasat.add(terminButton);

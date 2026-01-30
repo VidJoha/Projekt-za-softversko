@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\AuthService.java
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\CheckBoxUser.java
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\Db.java
@@ -15,21 +14,3 @@ C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversk
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\PanelFrame.java
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\RasporedFrame.java
 C:\Users\dorij\OneDrive\Documents\Dorijan\pmfstvari\softinz\Projekt-za-softversko\src\main\java\com\mycompany\kalendar\UlogiravanjeFrame.java
-=======
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/AuthService.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/CheckBoxUser.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/Db.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/DbConfig.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/DbCreateTables.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/DbSeedTables.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/DodajEventPanel.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/GlasajFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/Kalendar.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/KalendarFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/MyButton.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/NovaGrupaFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/OdlučiFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/PanelFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/RasporedFrame.java
-/home/student1/vjoha/HOME/softinz/Projekt-za-softversko/src/main/java/com/mycompany/kalendar/UlogiravanjeFrame.java
->>>>>>> 36c1f6eeaf9e284f98dd85065ced1a7bc0535394

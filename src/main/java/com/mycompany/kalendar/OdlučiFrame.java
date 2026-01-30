@@ -122,21 +122,21 @@ public class OdlučiFrame extends JFrame implements ActionListener{
                             
                             
                             java.sql.Timestamp poc=rs.getTimestamp("start_time"),kraj=rs.getTimestamp("end_time");
-                            JLabel terminDatumLabel=new JLabel();
-                            String dateToString=poc.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                            //JLabel terminDatumLabel=new JLabel();
+                            //String dateToString=poc.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                             
                             int slot_id=rs.getInt("slot_id");
                             int brojglasova=AuthService.allVotes(sviproposali.get(i), slot_id);
 
                             JLabel brojglasovazaterminLabel=new JLabel("Broj glasova: "+Integer.toString(brojglasova));
                             
-                            terminDatumLabel.setText(dateToString);
-                            terminPanel.add(terminDatumLabel);
+                            //terminDatumLabel.setText(dateToString);
+                            //terminPanel.add(terminDatumLabel);
                             
                             JButton terminButton=new JButton();
                             svitogglebuttonizaodabrat.add(terminButton);
                             
-                            terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
+                            terminButton.setText("%td.%tm. %tR-%tR".formatted(poc.toLocalDateTime(),poc.toLocalDateTime(),poc.toLocalDateTime(),kraj.toLocalDateTime()));
 
                             
                             terminButton.addActionListener(this);
@@ -157,7 +157,7 @@ public class OdlučiFrame extends JFrame implements ActionListener{
                             JButton terminButton=new JButton();
                             svitogglebuttonizaodabrat.add(terminButton);
                             
-                            terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
+                            terminButton.setText("%td.%tm. %tR-%tR".formatted(poc.toLocalDateTime(),poc.toLocalDateTime(),poc.toLocalDateTime(),kraj.toLocalDateTime()));
                             
                             
                             terminButton.addActionListener(this);
