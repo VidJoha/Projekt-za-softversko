@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 /**
  *
@@ -36,7 +37,7 @@ public class RasporedFrame  extends JFrame implements ActionListener{
     JPanel rasporedPanel;
     
     JButton dodaj;
-    JButton premjesti;
+    //JButton premjesti;
     JButton makni;
     JButton izađi;
     void updateRasporedPanel() {
@@ -92,10 +93,10 @@ public class RasporedFrame  extends JFrame implements ActionListener{
         dodaj.setMargin(new Insets(0, 0, 0, 0));
         dodaj.addActionListener(this);
         
-        premjesti=new JButton();
+        /*premjesti=new JButton();
         premjesti.setText("Premjesti sastanak");
         premjesti.setFont(new Font("Calibri",Font.PLAIN,20));
-        premjesti.setMargin(new Insets(0, 0, 0, 0));
+        premjesti.setMargin(new Insets(0, 0, 0, 0));*/
 
         makni=new JButton();
         makni.setText("Makni sastanak");
@@ -110,7 +111,7 @@ public class RasporedFrame  extends JFrame implements ActionListener{
         izađi.addActionListener(this);
         
         dodaj.setPreferredSize(new Dimension(180,80));
-        premjesti.setPreferredSize(new Dimension(180,80));
+        //premjesti.setPreferredSize(new Dimension(180,80));
         makni.setPreferredSize(new Dimension(180,80));
         izađi.setPreferredSize(new Dimension(180,80));
         
@@ -119,7 +120,7 @@ public class RasporedFrame  extends JFrame implements ActionListener{
 
         gumbiPanel.setBackground(new Color(100,100,100));
         gumbiPanel.add(dodaj);
-        gumbiPanel.add(premjesti);
+        //gumbiPanel.add(premjesti);
         gumbiPanel.add(makni);
         gumbiPanel.add(izađi);
         
@@ -143,19 +144,30 @@ public class RasporedFrame  extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==izađi){
-            System.out.println("Idem zatvorit prozor");
-            System.out.println("I otvorit novi");
             KalendarFrame noviKalendarFrame=new KalendarFrame(RasporedUserId,RasporedGodina,RasporedMjesec-1);
             noviKalendarFrame.setVisible(true);
             dispose();
         }
         if (e.getSource()==dodaj){
-            System.out.println("dodavanje");
             DodajEventPanel dodajPanel=new DodajEventPanel(RasporedUserId,RasporedDan,RasporedMjesec,RasporedGodina);
-            
-            int result=JOptionPane.showConfirmDialog(null,dodajPanel,"Dodavanje eventa",JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                if (dodajPanel.isTimeValid()) {
+            JOptionPane pane=new JOptionPane(dodajPanel,JOptionPane.PLAIN_MESSAGE,JOptionPane.OK_CANCEL_OPTION);
+            JDialog dialog=pane.createDialog(null,"Dodavanje eventa");
+            dialog.setResizable(true);
+            dialog.setVisible(true);
+            Object selectedValue=pane.getValue();
+            int intValue;
+            if (selectedValue==null) intValue=JOptionPane.CLOSED_OPTION;
+            else intValue=Integer.parseInt(selectedValue.toString());
+            //int result=JOptionPane.showConfirmDialog(null,dodajPanel,"Dodavanje eventa",JOptionPane.OK_CANCEL_OPTION);
+            if (intValue == JOptionPane.OK_OPTION) {
+                if (dodajPanel.groupBox.getSelectedItem().toString().equals("Samostalni") && 
+                        dodajPanel.glasanjeCheckbox.isSelected()) {
+                    JOptionPane.showMessageDialog(null,
+                        "Ne može se napraviti glasanje za samostalni event.",
+                        "Greška pri dodavanju eventa",
+                        JOptionPane.ERROR_MESSAGE);
+                } 
+                else if (dodajPanel.isTimeValid()) {
                     dodajPanel.addToDb();
                     updateRasporedPanel();
                     rasporedPanel.revalidate();
@@ -212,7 +224,6 @@ public class RasporedFrame  extends JFrame implements ActionListener{
                             String ime=res.getString("title");
                             java.sql.Timestamp poc=res.getTimestamp("start_time"),kraj=res.getTimestamp("end_time");
                             String curLabel="%s: %tR - %tR".formatted(ime,poc.toLocalDateTime(),kraj.toLocalDateTime());
-                            System.out.println(curLabel+"/"+chosenOption);
                             if (curLabel.equals(chosenOption)) {
                                 int eventId=res.getInt("event_id");
                                 PreparedStatement eventsDelete = conn.prepareStatement("DELETE FROM events WHERE event_id=?");

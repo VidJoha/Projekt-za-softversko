@@ -89,7 +89,9 @@ public class AuthService {
         }
     }
     public static ArrayList<Integer> allProposals(int trenutniuserid){
-        String sql = "SELECT proposal_id FROM proposal_participants WHERE user_id = ?";
+        String sql = """
+                     SELECT parts.proposal_id FROM proposal_participants parts WHERE parts.user_id = ? AND NOT EXISTS (
+                     SELECT * FROM votes WHERE votes.proposal_id=parts.proposal_id AND votes.user_id=parts.user_id)""";
         ArrayList<Integer> idsvihproposala=new ArrayList<>();
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

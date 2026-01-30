@@ -133,7 +133,7 @@ public class GlasajFrame extends JFrame implements ActionListener{
                             JButton terminButton=new JButton();
                             svitogglebuttonizaglasat.add(terminButton);
                             
-                            terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
+                            terminButton.setText("%td.%tm. %tR-%tR".formatted(poc.toLocalDateTime(),poc.toLocalDateTime(),poc.toLocalDateTime(),kraj.toLocalDateTime()));
 
                             
                             terminButton.addActionListener(this);
@@ -149,7 +149,7 @@ public class GlasajFrame extends JFrame implements ActionListener{
                             JButton terminButton=new JButton();
                             svitogglebuttonizaglasat.add(terminButton);
                             
-                            terminButton.setText("%tR - %tR".formatted(poc.toLocalDateTime(),kraj.toLocalDateTime()));
+                            terminButton.setText("%td.%tm. %tR-%tR".formatted(poc.toLocalDateTime(),poc.toLocalDateTime(),poc.toLocalDateTime(),kraj.toLocalDateTime()));
                             
                             
                             terminButton.addActionListener(this);
