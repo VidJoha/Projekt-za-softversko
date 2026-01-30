@@ -134,18 +134,18 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
         diozaupisivanje.add(naslovPanel1,BorderLayout.NORTH);
         diozaupisivanje.add(RnaslovPanel1,BorderLayout.SOUTH);
         //-----------------------------------------------------
-        loginskipgumb=new JButton("Developer log in skip");
-        loginskipgumb.setPreferredSize(new Dimension(300,100));
-        loginskipgumb.addActionListener(this);
-        JLabel obavijest=new JLabel("Maknuti prije predaje");
-        JPanel loginskipPanel=new JPanel();
-        loginskipPanel.setPreferredSize(new Dimension(2000,150));
-        loginskipPanel.add(loginskipgumb,BorderLayout.NORTH);
-        loginskipPanel.add(obavijest,BorderLayout.SOUTH);
+        //loginskipgumb=new JButton("Developer log in skip");
+        //loginskipgumb.setPreferredSize(new Dimension(300,100));
+        //loginskipgumb.addActionListener(this);
+        //JLabel obavijest=new JLabel("Maknuti prije predaje");
+        //JPanel loginskipPanel=new JPanel();
+        //loginskipPanel.setPreferredSize(new Dimension(2000,150));
+        //loginskipPanel.add(loginskipgumb,BorderLayout.NORTH);
+        //loginskipPanel.add(obavijest,BorderLayout.SOUTH);
         
         this.add(velikinaslovPanel,BorderLayout.NORTH);
         this.add(diozaupisivanje,BorderLayout.CENTER);
-        this.add(loginskipPanel,BorderLayout.SOUTH);
+        //this.add(loginskipPanel,BorderLayout.SOUTH);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(1000,1000);
         this.setVisible(true);
@@ -182,24 +182,39 @@ public class UlogiravanjeFrame extends JFrame implements ActionListener{
             }
 
             if (e.getSource() == registrirajgumb) {
-                try {
-                    int userid = AuthService.register(
-                            Rime.getText().trim(),
-                            Rmail.getText().trim(),
-                            new String(Rlozinka.getPassword())
-                    );
+            // Dohvati unose iz polja
+            String ime = Rime.getText().trim();
+            String email = Rmail.getText().trim();
+            String lozinka = new String(Rlozinka.getPassword());
 
-                    if (userid!=-1) {
-                        JOptionPane.showMessageDialog(this, "Registracija uspješna!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Korisnik ili email već postoji.");
-                    }
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Greška registracije: " + ex.getMessage());
-                }
+            // Provjera praznih polja
+            if (ime.isEmpty() || email.isEmpty() || lozinka.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sva polja moraju biti popunjena!");
+                return; // prekini izvršavanje
             }
+
+            // Provjera duljine lozinke
+            if (lozinka.length() < 8) {
+                JOptionPane.showMessageDialog(this, "Lozinka mora imati najmanje 8 znakova!");
+                return; // prekini izvršavanje
+            }
+
+            // Ako su provjere prošle, pokušaj registraciju
+            try {
+                int userid = AuthService.register(ime, email, lozinka);
+
+                if (userid != -1) {
+                    JOptionPane.showMessageDialog(this, "Registracija uspješna!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Korisnik ili email već postoji.");
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Greška registracije: " + ex.getMessage());
+            }
+        }
+
 
         }
 
